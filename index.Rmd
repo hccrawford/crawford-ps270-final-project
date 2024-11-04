@@ -13,3 +13,19 @@ output:
 
 I am interested in exploring data related to how differences in demographics correspond to mortality rates of various cancers. 
 
+```{r}
+library(tidyverse)
+```
+
+```{r}
+finaldata <- read_csv("finaldata.csv")
+```
+```{r}
+finaldata
+```
+
+
+
+
+
+
