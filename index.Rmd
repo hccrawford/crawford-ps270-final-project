@@ -36,6 +36,20 @@ The massive disparities here can partially be attributed to the fact that the va
 ```{r}
 finaldataperc <- read_csv("finaldataperc.csv")
 ```
+It is notable that the percentages do not refer to the percentage of the race out of 100%; for example, the variable "Uninsured" does not contain 6% White, 9% Black, etc. Rather, it means that of the insurance sub-category (that includes the variables "Private insurance", "Medicaid or Medicare", and "Uninsured"), 6% of White people are uninsured, while 76% of White people have private insurance and 18% are on Medicaid or Medicare.
+
+The sub-categories are:
+
+- Cancer stage ("Stage I", "Stage II", "Stage III", "Stage IV", "NA (CNS)")
+- Type of cancer ("Breast", "Cervical", "CNS", "Colon or rectal", "Lung", "Lymphoma", "Melanoma", "Ovarian", "Sarcoma", "Testicular")
+- Gender ("Female", "Male")
+- Distance to hospital, km (this is not a percentage)
+- Income ("Higher income", "Lower income")
+- Urban/rural ("Metropolitan", "Urban-rural")
+- Education ("More education", "Less education")
+- Insurance ("Private insurance", "Medicaid or Medicare", "Uninsured")
+- Treatment received ("Surgery", "Chemotherapy", "Radiotherapy")
+
 
 ```{r}
 finaldataperc
