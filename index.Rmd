@@ -21,14 +21,16 @@ library(tidyverse)
 finaldata <- read_csv("finaldata4.csv")
 ```
 ```{r}
-finaldata
+print(finaldata)
 ```
 
 ```{r}
-finaldata |>
+race_hospital_bar <- finaldata |>
   ggplot(aes(x = Race, y = `Distance to hospital, median (IQR), km`)) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(race_hospital_bar)
 ```
 
 The massive disparities here can partially be attributed to the fact that the vast majority of people sample were white; it may be more informative to compare percentages instead of absolute number. 
@@ -57,10 +59,12 @@ finaldataperc
 
 
 ```{r}
-finaldataperc |>
+race_gov_insure <- finaldataperc |>
   ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(race_gov_insure)
 ```
 
 
