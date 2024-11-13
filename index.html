@@ -32,7 +32,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1544,8 +1544,97 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to demographic changes in the U.S. over time.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I am interested in exploring data related to how differences in demographics correspond to mortality rates of various cancers.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"finaldata4.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldata</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 33
+  Race            Deceased `Stage I` `Stage II` `Stage III` `Stage IV`
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 Total              47613    117309      72503       48229      27788
+2 White              35995    101820      57335       38177      20606
+3 American India…      298       497        361         292        168
+4 Asian               1319      2920       2505        1363        961
+5 Black               9785     11787      12008        8213       5933
+6 Native Hawaiia…      216       285        294         184        120
+# ℹ 27 more variables: `NA (CNS)` &lt;dbl&gt;, Breast &lt;dbl&gt;,
+#   Cervical &lt;dbl&gt;, CNS &lt;dbl&gt;, `Colon or rectal` &lt;dbl&gt;, Lung &lt;dbl&gt;,
+#   Lymphoma &lt;dbl&gt;, Melanoma &lt;dbl&gt;, Ovarian &lt;dbl&gt;, Sarcoma &lt;dbl&gt;,
+#   Testicular &lt;dbl&gt;, `Age, median (IQR), y` &lt;dbl&gt;, Female &lt;dbl&gt;,
+#   Male &lt;dbl&gt;, `Distance to hospital, median (IQR), km` &lt;dbl&gt;,
+#   `Higher income` &lt;dbl&gt;, `Lower income` &lt;dbl&gt;, Metropolitan &lt;dbl&gt;,
+#   `Urban-rural` &lt;dbl&gt;, `More education` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Race</span>, y <span class='op'>=</span> <span class='va'>`Distance to hospital, median (IQR), km`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>The massive disparities here can partially be attributed to the fact that the vast majority of people sample were white; it may be more informative to compare percentages instead of absolute number.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"finaldataperc.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>It is notable that the percentages do not refer to the percentage of the race out of 100%; for example, the variable “Uninsured” does not contain 6% White, 9% Black, etc. Rather, it means that of the insurance sub-category (that includes the variables “Private insurance”, “Medicaid or Medicare”, and “Uninsured”), 6% of White people are uninsured, while 76% of White people have private insurance and 18% are on Medicaid or Medicare.</p>
+<p>The sub-categories are:</p>
+<ul>
+<li>Cancer stage (“Stage I”, “Stage II”, “Stage III”, “Stage IV”, “NA (CNS)”)</li>
+<li>Type of cancer (“Breast”, “Cervical”, “CNS”, “Colon or rectal”, “Lung”, “Lymphoma”, “Melanoma”, “Ovarian”, “Sarcoma”, “Testicular”)</li>
+<li>Gender (“Female”, “Male”)</li>
+<li>Distance to hospital, km (this is not a percentage)</li>
+<li>Income (“Higher income”, “Lower income”)</li>
+<li>Urban/rural (“Metropolitan”, “Urban-rural”)</li>
+<li>Education (“More education”, “Less education”)</li>
+<li>Insurance (“Private insurance”, “Medicaid or Medicare”, “Uninsured”)</li>
+<li>Treatment received (“Surgery”, “Chemotherapy”, “Radiotherapy”)</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 32
+  Race            Deceased `Stage I` `Stage II` `Stage III` `Stage IV`
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 Overall               16        40         25          17         10
+2 White                 15        42         24          16          9
+3 American India…       20        34         25          20         12
+4 Asian                 16        35         30          16         11
+5 Black                 24        29         29          20         15
+6 Native Hawaiia…       22        29         30          19         12
+# ℹ 26 more variables: `NA (CNS)` &lt;dbl&gt;, Breast &lt;dbl&gt;,
+#   Cervical &lt;dbl&gt;, CNS &lt;dbl&gt;, `Colon or rectal` &lt;dbl&gt;, Lung &lt;dbl&gt;,
+#   Lymphoma &lt;dbl&gt;, Melanoma &lt;dbl&gt;, Ovarian &lt;dbl&gt;, Sarcoma &lt;dbl&gt;,
+#   Testicular &lt;dbl&gt;, Female &lt;dbl&gt;, Male &lt;dbl&gt;,
+#   `Distance to hospital, median (IQR), km` &lt;dbl&gt;,
+#   `Higher income` &lt;dbl&gt;, `Lower income` &lt;dbl&gt;, Metropolitan &lt;dbl&gt;,
+#   `Urban-rural` &lt;dbl&gt;, `More education` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Race</span>, y <span class='op'>=</span> <span class='va'>`Medicaid or Medicare`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
