@@ -8,6 +8,18 @@ output:
 ---
 
 
+## Introduction
+
+Cancer is an interesting and tragic condition due to its prevalence and mortality rate. It is also very diverse, with several different types of cancers and different rates of incidence among different populations, determined by environmental and genetic factors. It's this diversity in experience with cancer that naturally asks the question of how it is experienced across different groups of people. The research question of interest here is how the mortality rates of colon cancer differs across education, race, and income groups. As a hypothesis, it is expected that the mortality rate of cancer will be higher among those that are nonwhite and have lower incomes, with less education. This is because, of course, those with lower incomes likely have received less education and have less access to quality healthcare and therefore may not receive the treatment they need. There is also a correlation between race and income groups, with nonwhite people in the United States (the origin of this data set) having a higher proportion of individuals living below the poverty line as compared to white people. In this analysis, we will analyze how the aforementioned three factors relate directly to mortality rates. We will also observe how factors such as race and income correlate with other factors that may more directly influence mortality rates, such as proportions of uninsured people and rates of late-stage diagnosis (Stage III or IV). 
+
+The following data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. 
+
+## Data
+
+## Results
+
+## Conclusion
+
 
 ## Project thoughts
 
