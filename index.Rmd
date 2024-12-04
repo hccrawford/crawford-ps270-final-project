@@ -16,41 +16,41 @@ The following data comes from the paper "Racial Disparities in Cancer Stage at D
 
 ## Data
 
-## Results
-
-## Conclusion
-
-
-## Project thoughts
-
-I am interested in exploring data related to how differences in demographics correspond to mortality rates of various cancers. 
+Loading the datasets and packages: 
 
 ```{r}
 library(tidyverse)
-```
-
-```{r}
 finaldata <- read_csv("finaldata4.csv")
-```
-```{r}
-print(finaldata)
-```
-
-```{r}
-race_hospital_bar <- finaldata |>
-  ggplot(aes(x = Race, y = `Distance to hospital, median (IQR), km`)) +
-  geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-print(race_hospital_bar)
-```
-
-The massive disparities here can partially be attributed to the fact that the vast majority of people sample were white; it may be more informative to compare percentages instead of absolute number. 
-
-```{r}
 finaldataperc <- read_csv("finaldataperc.csv")
 ```
-It is notable that the percentages do not refer to the percentage of the race out of 100%; for example, the variable "Uninsured" does not contain 6% White, 9% Black, etc. Rather, it means that of the insurance sub-category (that includes the variables "Private insurance", "Medicaid or Medicare", and "Uninsured"), 6% of White people are uninsured, while 76% of White people have private insurance and 18% are on Medicaid or Medicare.
+
+```{r}
+finaldata
+```
+
+
+The study looks at five different races: 1) American Indian/Alaska Native, 2) Asian, 3) Black, 4) Native Hawaiian or Other Pacific Islander, and 5) White. There is also a sixth row to show the value of the variable across the entire population sample (Total). 
+
+When looking at this study, there are two data sets to consider: the one labeled "finaldata" (finaldata4.csv), which contains the absolute numbers of peope who fit into each category in the study. There is also "finaldataperc" (finaldataperc.csv), which contains this same data in percentages. For the purposes of this analysis, finaldataperc will be the data set that is primarily used, for the following reason: 
+
+```{r}
+finaldata |>
+  ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The massive disparities here can partially be attributed to the fact that the vast majority of people sampled were white; therefore, it is informative to compare percentages instead of absolute number: 
+
+```{r}
+finaldataperc |>
+  ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+It is notable that the percentages do not refer to the percentage of the race out of 100%; for example, the variable "Uninsured" does not contain 6% White, 9% Black, etc. Rather, it means that within the insurance sub-category (that includes the variables "Private insurance", "Medicaid or Medicare", and "Uninsured"), 6% of White people are uninsured, while 76% of White people have private insurance and 18% are on Medicaid or Medicare.
 
 The sub-categories are:
 
@@ -65,6 +65,25 @@ The sub-categories are:
 - Insurance ("Private insurance", "Medicaid or Medicare", "Uninsured")
 - Treatment received ("Surgery", "Chemotherapy", "Radiotherapy")
 
+For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest for this analysis.  
+
+
+
+## Results
+
+## Conclusion
+
+
+
+
+# Project thoughts
+
+I am interested in exploring data related to how differences in demographics correspond to mortality rates of various cancers. 
+
+
+```{r}
+print(finaldata)
+```
 
 ```{r}
 finaldataperc
@@ -72,12 +91,10 @@ finaldataperc
 
 
 ```{r}
-race_gov_insure <- finaldataperc |>
+finaldataperc |>
   ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-print(race_gov_insure)
 ```
 
 ## Milestone 4
