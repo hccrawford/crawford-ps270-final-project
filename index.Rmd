@@ -25,13 +25,27 @@ finaldata <- read_csv("finaldata4.csv")
 finaldataperc <- read_csv("finaldataperc.csv")
 ```
 
-Data table: 
+
+
+Data table previews: 
 ```{r}
-head(finaldata)
+finaldata_short <- finaldata |>
+  select("Race", "Deceased", "Stage I", "Stage II", "Stage III")
+
+knitr::kable(finaldata_short)
 ```
 
 
+```{r}
+finaldataperc_short <- finaldataperc |>
+  select("Race", "Deceased", "Stage I", "Stage II", "Stage III")
+
+knitr::kable(finaldataperc_short)
+```
+
 The study looks at five different races: 1) American Indian/Alaska Native, 2) Asian, 3) Black, 4) Native Hawaiian or Other Pacific Islander, and 5) White. There is also a sixth row to show the value of the variable across the entire population sample (Total). 
+
+A total of 291,899 individuals are included in the study. Of these, 1,457 are American Indian/Alaska Native, 8,412 are Asian, 40,851 are Black, 987 are Native Hawaiian or Other Pacific Islander, and 240,192 are White. 
 
 When looking at this study, there are two data sets to consider: the one labeled "finaldata" (finaldata4.csv), which contains the absolute numbers of peope who fit into each category in the study. There is also "finaldataperc" (finaldataperc.csv), which contains this same data in percentages. For the purposes of this analysis, finaldataperc will be the data set that is primarily used, for the following reason: 
 
@@ -73,8 +87,17 @@ The independent variable here is race (5 rows). We are looking to see how race c
 
 The dependent variables are "Deceased", education (2 columns), income (2 columns), insurance (3 columns), and cancer stage (5 columns). The "Deceased" variable refers to those who both received a diagnosis and passed away due to cancer within the study period (2004-2017). In the education variable, an individual is classified as having "More education" if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having "Higher income" when their annual income is greater than the median household income in their county and "Lower income" when it is less than the median. Cancer stage, of course, refers to the stage at diagnosis, with the exception of central nervous system (CNS) cancer, which is not classified in the traditional stages. 
 
+Below is a graph summarizing one of the dependent variables, "Deceased":
 
+```{r}
+deceased_graph <- finaldataperc |>
+  ggplot(aes(x = Race, y = Deceased)) + 
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+print(deceased_graph)
+```
+The graph above demonstrates the percentages of people included in the study within each race that died of cancer. Among those included in the study, 15% of white people died, 24% of Black people died, 20% of American Indians or Alaska Natives died, 16% of Asian people died, and 22% of Native Hawaiians or other Pacific Islanders died. Across all races, 16% of people who had cancer died from it. These numbers indicate that all races had a higher rate of death from cancer than the average of all people, with the exceptions of white people, who had a lower average, and Asian people, whose average equaled the total population. Since there is such a disparity between the death rates of white people and most other races, the data suggests that white people have a higher chance of surviving cancer across all cancer types.
 
 
 
@@ -108,16 +131,8 @@ finaldataperc |>
 
 ## Milestone 4
 
-```{r}
-deceased_graph <- finaldataperc |>
-  ggplot(aes(x = Race, y = Deceased)) + 
-  geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-print(deceased_graph)
-```
 
-The graph above demonstrates the percentages of people included in the study within each race that died of cancer. Among those included in the study, 15% of white people died, 24% of Black people died, 20% of American Indians or Alaska Natives died, 16% of Asian people died, and 22% of Native Hawaiians or other Pacific Islanders died. Across all races, 16% of people who had cancer died from it. These numbers indicate that all races had a higher rate of death from cancer than the average of all people, with the exceptions of white people, who had a lower average, and Asian people, whose average equaled the total population. Since there is such a disparity between the death rates of white people and most other races, the data suggests that white people have a higher chance of surviving cancer across all cancer types.
 
 The reason that the average is so low relative to the averages of all other races is because the subjects in this study were overwhelmingly white, bringing the average down considerably. It is the reason the data in the graph above looks at the percentages, rather than raw numbers, because the raw numbers would show that a larger number of white people died than any other race; this does not reflect the rate of death, it is reflective of how many white people were included in the study. 
 

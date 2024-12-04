@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1555,29 +1555,149 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>finaldataperc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"finaldataperc.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-Data table:
+Data table previews:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>finaldata</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldata_short</span> <span class='op'>&lt;-</span> <span class='va'>finaldata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Race"</span>, <span class='st'>"Deceased"</span>, <span class='st'>"Stage I"</span>, <span class='st'>"Stage II"</span>, <span class='st'>"Stage III"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>finaldata_short</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 6 × 33
-  Race            Deceased `Stage I` `Stage II` `Stage III` `Stage IV`
-  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
-1 Total              47613    117309      72503       48229      27788
-2 White              35995    101820      57335       38177      20606
-3 American India…      298       497        361         292        168
-4 Asian               1319      2920       2505        1363        961
-5 Black               9785     11787      12008        8213       5933
-6 Native Hawaiia…      216       285        294         184        120
-# ℹ 27 more variables: `NA (CNS)` &lt;dbl&gt;, Breast &lt;dbl&gt;,
-#   Cervical &lt;dbl&gt;, CNS &lt;dbl&gt;, `Colon or rectal` &lt;dbl&gt;, Lung &lt;dbl&gt;,
-#   Lymphoma &lt;dbl&gt;, Melanoma &lt;dbl&gt;, Ovarian &lt;dbl&gt;, Sarcoma &lt;dbl&gt;,
-#   Testicular &lt;dbl&gt;, `Age, median (IQR), y` &lt;dbl&gt;, Female &lt;dbl&gt;,
-#   Male &lt;dbl&gt;, `Distance to hospital, median (IQR), km` &lt;dbl&gt;,
-#   `Higher income` &lt;dbl&gt;, `Lower income` &lt;dbl&gt;, Metropolitan &lt;dbl&gt;,
-#   `Urban-rural` &lt;dbl&gt;, `More education` &lt;dbl&gt;, …</code></pre>
+<table>
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 11%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Race</th>
+<th style="text-align: right;">Deceased</th>
+<th style="text-align: right;">Stage I</th>
+<th style="text-align: right;">Stage II</th>
+<th style="text-align: right;">Stage III</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Total</td>
+<td style="text-align: right;">47613</td>
+<td style="text-align: right;">117309</td>
+<td style="text-align: right;">72503</td>
+<td style="text-align: right;">48229</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">35995</td>
+<td style="text-align: right;">101820</td>
+<td style="text-align: right;">57335</td>
+<td style="text-align: right;">38177</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">American Indian or Alaska Native</td>
+<td style="text-align: right;">298</td>
+<td style="text-align: right;">497</td>
+<td style="text-align: right;">361</td>
+<td style="text-align: right;">292</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Asian</td>
+<td style="text-align: right;">1319</td>
+<td style="text-align: right;">2920</td>
+<td style="text-align: right;">2505</td>
+<td style="text-align: right;">1363</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Black</td>
+<td style="text-align: right;">9785</td>
+<td style="text-align: right;">11787</td>
+<td style="text-align: right;">12008</td>
+<td style="text-align: right;">8213</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Native Hawaiian or Other Pacific Islander</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">285</td>
+<td style="text-align: right;">294</td>
+<td style="text-align: right;">184</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc_short</span> <span class='op'>&lt;-</span> <span class='va'>finaldataperc</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Race"</span>, <span class='st'>"Deceased"</span>, <span class='st'>"Stage I"</span>, <span class='st'>"Stage II"</span>, <span class='st'>"Stage III"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>finaldataperc_short</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 11%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Race</th>
+<th style="text-align: right;">Deceased</th>
+<th style="text-align: right;">Stage I</th>
+<th style="text-align: right;">Stage II</th>
+<th style="text-align: right;">Stage III</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Overall</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">American Indian or Alaska Native</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Asian</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Black</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Native Hawaiian or Other Pacific Islander</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">19</td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>The study looks at five different races: 1) American Indian/Alaska Native, 2) Asian, 3) Black, 4) Native Hawaiian or Other Pacific Islander, and 5) White. There is also a sixth row to show the value of the variable across the entire population sample (Total).</p>
+<p>A total of 291,899 individuals are included in the study. Of these, 1,457 are American Indian/Alaska Native, 8,412 are Asian, 40,851 are Black, 987 are Native Hawaiian or Other Pacific Islander, and 240,192 are White.</p>
 <p>When looking at this study, there are two data sets to consider: the one labeled “finaldata” (finaldata4.csv), which contains the absolute numbers of peope who fit into each category in the study. There is also “finaldataperc” (finaldataperc.csv), which contains this same data in percentages. For the purposes of this analysis, finaldataperc will be the data set that is primarily used, for the following reason:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1586,7 +1706,7 @@ Data table:
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <p>The massive disparities here can partially be attributed to the fact that the vast majority of people sampled were white; therefore, it is informative to compare percentages instead of absolute number:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1596,7 +1716,7 @@ Data table:
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <p>It is notable that the percentages do not refer to the percentage of the category, but percentage of the race; for example, the variable “Uninsured” does not contain 6% White, 9% Black, etc. Rather, it means that within the insurance sub-category (that includes the variables “Private insurance”, “Medicaid or Medicare”, and “Uninsured”), 76% of White people have private insurance, 18% are on Medicaid or Medicare, and 6% are uninsured.</p>
 <p>The sub-categories are:</p>
@@ -1615,6 +1735,19 @@ Data table:
 <p>For this analysis, we are only looking at the “Colon or rectal” cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.</p>
 <p>The independent variable here is race (5 rows). We are looking to see how race corresponds to various other variables.</p>
 <p>The dependent variables are “Deceased”, education (2 columns), income (2 columns), insurance (3 columns), and cancer stage (5 columns). The “Deceased” variable refers to those who both received a diagnosis and passed away due to cancer within the study period (2004-2017). In the education variable, an individual is classified as having “More education” if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having “Higher income” when their annual income is greater than the median household income in their county and “Lower income” when it is less than the median. Cancer stage, of course, refers to the stage at diagnosis, with the exception of central nervous system (CNS) cancer, which is not classified in the traditional stages.</p>
+<p>Below is a graph summarizing one of the dependent variables, “Deceased”:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>deceased_graph</span> <span class='op'>&lt;-</span> <span class='va'>finaldataperc</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Race</span>, y <span class='op'>=</span> <span class='va'>Deceased</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>deceased_graph</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>The graph above demonstrates the percentages of people included in the study within each race that died of cancer. Among those included in the study, 15% of white people died, 24% of Black people died, 20% of American Indians or Alaska Natives died, 16% of Asian people died, and 22% of Native Hawaiians or other Pacific Islanders died. Across all races, 16% of people who had cancer died from it. These numbers indicate that all races had a higher rate of death from cancer than the average of all people, with the exceptions of white people, who had a lower average, and Asian people, whose average equaled the total population. Since there is such a disparity between the death rates of white people and most other races, the data suggests that white people have a higher chance of surviving cancer across all cancer types.</p>
 <h2 id="results">Results</h2>
 <h2 id="conclusion">Conclusion</h2>
 <h1 id="project-thoughts">Project thoughts</h1>
@@ -1668,24 +1801,12 @@ Data table:
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
 <h2 id="milestone-4">Milestone 4</h2>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>deceased_graph</span> <span class='op'>&lt;-</span> <span class='va'>finaldataperc</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Race</span>, y <span class='op'>=</span> <span class='va'>Deceased</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>deceased_graph</span><span class='op'>)</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<p>The graph above demonstrates the percentages of people included in the study within each race that died of cancer. Among those included in the study, 15% of white people died, 24% of Black people died, 20% of American Indians or Alaska Natives died, 16% of Asian people died, and 22% of Native Hawaiians or other Pacific Islanders died. Across all races, 16% of people who had cancer died from it. These numbers indicate that all races had a higher rate of death from cancer than the average of all people, with the exceptions of white people, who had a lower average, and Asian people, whose average equaled the total population. Since there is such a disparity between the death rates of white people and most other races, the data suggests that white people have a higher chance of surviving cancer across all cancer types.</p>
 <p>The reason that the average is so low relative to the averages of all other races is because the subjects in this study were overwhelmingly white, bringing the average down considerably. It is the reason the data in the graph above looks at the percentages, rather than raw numbers, because the raw numbers would show that a larger number of white people died than any other race; this does not reflect the rate of death, it is reflective of how many white people were included in the study.</p>
 <p>Future data analysis can ascertain whether this trend remains consistent across each type of cancer. It is also worth analyzing whether other factors, such as rates of insurance coverage, education, and high income level follow the trends here: do white people have higher rates of being covered by private insurance? Getting higher education? Receiving more income? If there is a correlation, it is possible that those factors influence the rates at which people who have cancer die from it.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
