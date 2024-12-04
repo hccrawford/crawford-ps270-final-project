@@ -1545,8 +1545,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h2 id="introduction">Introduction</h2>
 <p>Cancer is an interesting and tragic condition due to its prevalence and mortality rate. It is also very diverse, with several different types of cancers and different rates of incidence among different populations, determined by environmental and genetic factors. It’s this diversity in experience with cancer that naturally asks the question of how it is experienced across different groups of people. The research question of interest here is how the mortality rates of colon cancer differs across education, race, and income groups. As a hypothesis, it is expected that the mortality rate of cancer will be higher among those that are nonwhite and have lower incomes, with less education. This is because, of course, those with lower incomes likely have received less education and have less access to quality healthcare and therefore may not receive the treatment they need. There is also a correlation between race and income groups, with nonwhite people having a higher proportion of individuals living below the poverty line as compared to white people. In this analysis, we will analyze how the aforementioned three factors relate directly to mortality rates. We will also observe how factors such as race and income correlate with other factors that may more directly influence mortality rates, such as proportions of uninsured people and rates of late-stage diagnosis (Stage III or IV). This information is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.</p>
-<p>The following data comes from the paper “Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults” by Taparra, Kekumano, et al., published in the National Library of Medicine (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/" class="uri">https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/</a>) on August 30, 2024.</p>
 <h2 id="data">Data</h2>
+<p>The following data comes from the paper “Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults” by Taparra, Kekumano, et al., published in the National Library of Medicine (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/" class="uri">https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/</a>) on August 30, 2024. The research question in this study aligns well with the goals of this analysis, as the researchers wanted to understand any relationship between race and two variables: 1) cancer stage at diagnosis and 2) mortality rate. Because of this, the data is very useful in answering the research question being posed here.</p>
 <p>Loading the datasets and packages:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1555,296 +1555,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>finaldataperc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"finaldataperc.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
+Data table:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>finaldata</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>finaldata</span><span class='op'>)</span></span></code></pre>
 </div>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 3%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 2%" />
-<col style="width: 4%" />
-<col style="width: 1%" />
-<col style="width: 1%" />
-<col style="width: 9%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 2%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-<col style="width: 4%" />
-<col style="width: 4%" />
-<col style="width: 2%" />
-<col style="width: 1%" />
-<col style="width: 3%" />
-<col style="width: 3%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Race</th>
-<th style="text-align: right;">Deceased</th>
-<th style="text-align: right;">Stage I</th>
-<th style="text-align: right;">Stage II</th>
-<th style="text-align: right;">Stage III</th>
-<th style="text-align: right;">Stage IV</th>
-<th style="text-align: right;">NA (CNS)</th>
-<th style="text-align: right;">Breast</th>
-<th style="text-align: right;">Cervical</th>
-<th style="text-align: right;">CNS</th>
-<th style="text-align: right;">Colon or rectal</th>
-<th style="text-align: right;">Lung</th>
-<th style="text-align: right;">Lymphoma</th>
-<th style="text-align: right;">Melanoma</th>
-<th style="text-align: right;">Ovarian</th>
-<th style="text-align: right;">Sarcoma</th>
-<th style="text-align: right;">Testicular</th>
-<th style="text-align: right;">Age, median (IQR), y</th>
-<th style="text-align: right;">Female</th>
-<th style="text-align: right;">Male</th>
-<th style="text-align: right;">Distance to hospital, median (IQR), km</th>
-<th style="text-align: right;">Higher income</th>
-<th style="text-align: right;">Lower income</th>
-<th style="text-align: right;">Metropolitan</th>
-<th style="text-align: right;">Urban-rural</th>
-<th style="text-align: right;">More education</th>
-<th style="text-align: right;">Less education</th>
-<th style="text-align: right;">Private insurance</th>
-<th style="text-align: right;">Medicaid or Medicare</th>
-<th style="text-align: right;">Uninsured</th>
-<th style="text-align: right;">Surgery</th>
-<th style="text-align: right;">Chemotherapy</th>
-<th style="text-align: right;">Radiotherapy</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Total</td>
-<td style="text-align: right;">47613</td>
-<td style="text-align: right;">117309</td>
-<td style="text-align: right;">72503</td>
-<td style="text-align: right;">48229</td>
-<td style="text-align: right;">27788</td>
-<td style="text-align: right;">26070</td>
-<td style="text-align: right;">79195</td>
-<td style="text-align: right;">20923</td>
-<td style="text-align: right;">26070</td>
-<td style="text-align: right;">22545</td>
-<td style="text-align: right;">5596</td>
-<td style="text-align: right;">45500</td>
-<td style="text-align: right;">36724</td>
-<td style="text-align: right;">8982</td>
-<td style="text-align: right;">14951</td>
-<td style="text-align: right;">31413</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">186549</td>
-<td style="text-align: right;">105350</td>
-<td style="text-align: right;">0.19</td>
-<td style="text-align: right;">167546</td>
-<td style="text-align: right;">99296</td>
-<td style="text-align: right;">242154</td>
-<td style="text-align: right;">39091</td>
-<td style="text-align: right;">162149</td>
-<td style="text-align: right;">104855</td>
-<td style="text-align: right;">215661</td>
-<td style="text-align: right;">52372</td>
-<td style="text-align: right;">17274</td>
-<td style="text-align: right;">236222</td>
-<td style="text-align: right;">168077</td>
-<td style="text-align: right;">94750</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">White</td>
-<td style="text-align: right;">35995</td>
-<td style="text-align: right;">101820</td>
-<td style="text-align: right;">57335</td>
-<td style="text-align: right;">38177</td>
-<td style="text-align: right;">20606</td>
-<td style="text-align: right;">22254</td>
-<td style="text-align: right;">58836</td>
-<td style="text-align: right;">16724</td>
-<td style="text-align: right;">22254</td>
-<td style="text-align: right;">17650</td>
-<td style="text-align: right;">4391</td>
-<td style="text-align: right;">35955</td>
-<td style="text-align: right;">36318</td>
-<td style="text-align: right;">7135</td>
-<td style="text-align: right;">11426</td>
-<td style="text-align: right;">29503</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">148554</td>
-<td style="text-align: right;">91638</td>
-<td style="text-align: right;">0.21</td>
-<td style="text-align: right;">145048</td>
-<td style="text-align: right;">74109</td>
-<td style="text-align: right;">195702</td>
-<td style="text-align: right;">35184</td>
-<td style="text-align: right;">142782</td>
-<td style="text-align: right;">76502</td>
-<td style="text-align: right;">185251</td>
-<td style="text-align: right;">36663</td>
-<td style="text-align: right;">12959</td>
-<td style="text-align: right;">197433</td>
-<td style="text-align: right;">132194</td>
-<td style="text-align: right;">74170</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">American Indian or Alaska Native</td>
-<td style="text-align: right;">298</td>
-<td style="text-align: right;">497</td>
-<td style="text-align: right;">361</td>
-<td style="text-align: right;">292</td>
-<td style="text-align: right;">168</td>
-<td style="text-align: right;">139</td>
-<td style="text-align: right;">369</td>
-<td style="text-align: right;">155</td>
-<td style="text-align: right;">139</td>
-<td style="text-align: right;">138</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">177</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">49</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">227</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">898</td>
-<td style="text-align: right;">559</td>
-<td style="text-align: right;">0.42</td>
-<td style="text-align: right;">544</td>
-<td style="text-align: right;">775</td>
-<td style="text-align: right;">864</td>
-<td style="text-align: right;">528</td>
-<td style="text-align: right;">620</td>
-<td style="text-align: right;">700</td>
-<td style="text-align: right;">667</td>
-<td style="text-align: right;">664</td>
-<td style="text-align: right;">80</td>
-<td style="text-align: right;">1187</td>
-<td style="text-align: right;">900</td>
-<td style="text-align: right;">486</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Asian</td>
-<td style="text-align: right;">1319</td>
-<td style="text-align: right;">2920</td>
-<td style="text-align: right;">2505</td>
-<td style="text-align: right;">1363</td>
-<td style="text-align: right;">961</td>
-<td style="text-align: right;">663</td>
-<td style="text-align: right;">3531</td>
-<td style="text-align: right;">481</td>
-<td style="text-align: right;">663</td>
-<td style="text-align: right;">789</td>
-<td style="text-align: right;">270</td>
-<td style="text-align: right;">1257</td>
-<td style="text-align: right;">119</td>
-<td style="text-align: right;">437</td>
-<td style="text-align: right;">462</td>
-<td style="text-align: right;">403</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">6225</td>
-<td style="text-align: right;">2187</td>
-<td style="text-align: right;">0.11</td>
-<td style="text-align: right;">6171</td>
-<td style="text-align: right;">1664</td>
-<td style="text-align: right;">7968</td>
-<td style="text-align: right;">177</td>
-<td style="text-align: right;">4860</td>
-<td style="text-align: right;">2980</td>
-<td style="text-align: right;">6469</td>
-<td style="text-align: right;">1369</td>
-<td style="text-align: right;">435</td>
-<td style="text-align: right;">6717</td>
-<td style="text-align: right;">5666</td>
-<td style="text-align: right;">3508</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Black</td>
-<td style="text-align: right;">9785</td>
-<td style="text-align: right;">11787</td>
-<td style="text-align: right;">12008</td>
-<td style="text-align: right;">8213</td>
-<td style="text-align: right;">5933</td>
-<td style="text-align: right;">2910</td>
-<td style="text-align: right;">16159</td>
-<td style="text-align: right;">3476</td>
-<td style="text-align: right;">2910</td>
-<td style="text-align: right;">3873</td>
-<td style="text-align: right;">902</td>
-<td style="text-align: right;">7954</td>
-<td style="text-align: right;">203</td>
-<td style="text-align: right;">1316</td>
-<td style="text-align: right;">2865</td>
-<td style="text-align: right;">1193</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">30229</td>
-<td style="text-align: right;">10622</td>
-<td style="text-align: right;">0.13</td>
-<td style="text-align: right;">15119</td>
-<td style="text-align: right;">22526</td>
-<td style="text-align: right;">36728</td>
-<td style="text-align: right;">3126</td>
-<td style="text-align: right;">13345</td>
-<td style="text-align: right;">24328</td>
-<td style="text-align: right;">22617</td>
-<td style="text-align: right;">13408</td>
-<td style="text-align: right;">3752</td>
-<td style="text-align: right;">30125</td>
-<td style="text-align: right;">28668</td>
-<td style="text-align: right;">16189</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Native Hawaiian or Other Pacific Islander</td>
-<td style="text-align: right;">216</td>
-<td style="text-align: right;">285</td>
-<td style="text-align: right;">294</td>
-<td style="text-align: right;">184</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">104</td>
-<td style="text-align: right;">300</td>
-<td style="text-align: right;">87</td>
-<td style="text-align: right;">104</td>
-<td style="text-align: right;">95</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">157</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: right;">78</td>
-<td style="text-align: right;">87</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">643</td>
-<td style="text-align: right;">344</td>
-<td style="text-align: right;">0.18</td>
-<td style="text-align: right;">664</td>
-<td style="text-align: right;">222</td>
-<td style="text-align: right;">892</td>
-<td style="text-align: right;">76</td>
-<td style="text-align: right;">542</td>
-<td style="text-align: right;">345</td>
-<td style="text-align: right;">657</td>
-<td style="text-align: right;">268</td>
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">760</td>
-<td style="text-align: right;">649</td>
-<td style="text-align: right;">397</td>
-</tr>
-</tbody>
-</table>
+<pre><code># A tibble: 6 × 33
+  Race            Deceased `Stage I` `Stage II` `Stage III` `Stage IV`
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 Total              47613    117309      72503       48229      27788
+2 White              35995    101820      57335       38177      20606
+3 American India…      298       497        361         292        168
+4 Asian               1319      2920       2505        1363        961
+5 Black               9785     11787      12008        8213       5933
+6 Native Hawaiia…      216       285        294         184        120
+# ℹ 27 more variables: `NA (CNS)` &lt;dbl&gt;, Breast &lt;dbl&gt;,
+#   Cervical &lt;dbl&gt;, CNS &lt;dbl&gt;, `Colon or rectal` &lt;dbl&gt;, Lung &lt;dbl&gt;,
+#   Lymphoma &lt;dbl&gt;, Melanoma &lt;dbl&gt;, Ovarian &lt;dbl&gt;, Sarcoma &lt;dbl&gt;,
+#   Testicular &lt;dbl&gt;, `Age, median (IQR), y` &lt;dbl&gt;, Female &lt;dbl&gt;,
+#   Male &lt;dbl&gt;, `Distance to hospital, median (IQR), km` &lt;dbl&gt;,
+#   `Higher income` &lt;dbl&gt;, `Lower income` &lt;dbl&gt;, Metropolitan &lt;dbl&gt;,
+#   `Urban-rural` &lt;dbl&gt;, `More education` &lt;dbl&gt;, …</code></pre>
 </div>
 <p>The study looks at five different races: 1) American Indian/Alaska Native, 2) Asian, 3) Black, 4) Native Hawaiian or Other Pacific Islander, and 5) White. There is also a sixth row to show the value of the variable across the entire population sample (Total).</p>
 <p>When looking at this study, there are two data sets to consider: the one labeled “finaldata” (finaldata4.csv), which contains the absolute numbers of peope who fit into each category in the study. There is also “finaldataperc” (finaldataperc.csv), which contains this same data in percentages. For the purposes of this analysis, finaldataperc will be the data set that is primarily used, for the following reason:</p>
@@ -1882,6 +1613,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Treatment received (“Surgery”, “Chemotherapy”, “Radiotherapy”)</li>
 </ul>
 <p>For this analysis, we are only looking at the “Colon or rectal” cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.</p>
+<p>The dependent variables here are race (5 rows), education (2 rows), and income (2 rows). In the education variable, an individual is classified as having “More education” if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having “Higher income” when their annual income is greater than the median household income in their county and “Lower income” when it is less than the median.</p>
 <h2 id="results">Results</h2>
 <h2 id="conclusion">Conclusion</h2>
 <h1 id="project-thoughts">Project thoughts</h1>
@@ -1952,7 +1684,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The graph above demonstrates the percentages of people included in the study within each race that died of cancer. Among those included in the study, 15% of white people died, 24% of Black people died, 20% of American Indians or Alaska Natives died, 16% of Asian people died, and 22% of Native Hawaiians or other Pacific Islanders died. Across all races, 16% of people who had cancer died from it. These numbers indicate that all races had a higher rate of death from cancer than the average of all people, with the exceptions of white people, who had a lower average, and Asian people, whose average equaled the total population. Since there is such a disparity between the death rates of white people and most other races, the data suggests that white people have a higher chance of surviving cancer across all cancer types.</p>
 <p>The reason that the average is so low relative to the averages of all other races is because the subjects in this study were overwhelmingly white, bringing the average down considerably. It is the reason the data in the graph above looks at the percentages, rather than raw numbers, because the raw numbers would show that a larger number of white people died than any other race; this does not reflect the rate of death, it is reflective of how many white people were included in the study.</p>
 <p>Future data analysis can ascertain whether this trend remains consistent across each type of cancer. It is also worth analyzing whether other factors, such as rates of insurance coverage, education, and high income level follow the trends here: do white people have higher rates of being covered by private insurance? Getting higher education? Receiving more income? If there is a correlation, it is possible that those factors influence the rates at which people who have cancer die from it.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

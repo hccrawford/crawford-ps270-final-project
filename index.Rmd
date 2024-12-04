@@ -12,9 +12,10 @@ output:
 
 Cancer is an interesting and tragic condition due to its prevalence and mortality rate. It is also very diverse, with several different types of cancers and different rates of incidence among different populations, determined by environmental and genetic factors. It's this diversity in experience with cancer that naturally asks the question of how it is experienced across different groups of people. The research question of interest here is how the mortality rates of colon cancer differs across education, race, and income groups. As a hypothesis, it is expected that the mortality rate of cancer will be higher among those that are nonwhite and have lower incomes, with less education. This is because, of course, those with lower incomes likely have received less education and have less access to quality healthcare and therefore may not receive the treatment they need. There is also a correlation between race and income groups, with nonwhite people having a higher proportion of individuals living below the poverty line as compared to white people. In this analysis, we will analyze how the aforementioned three factors relate directly to mortality rates. We will also observe how factors such as race and income correlate with other factors that may more directly influence mortality rates, such as proportions of uninsured people and rates of late-stage diagnosis (Stage III or IV). This information is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
 
-The following data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. 
 
 ## Data
+
+The following data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. The research question in this study aligns well with the goals of this analysis, as the researchers wanted to understand any relationship between race and two variables: 1) cancer stage at diagnosis and 2) mortality rate. Because of this, the data is very useful in answering the research question being posed here. 
 
 Loading the datasets and packages: 
 
@@ -24,8 +25,9 @@ finaldata <- read_csv("finaldata4.csv")
 finaldataperc <- read_csv("finaldataperc.csv")
 ```
 
+Data table: 
 ```{r}
-knitr::kable(finaldata)
+head(finaldata)
 ```
 
 
@@ -67,7 +69,7 @@ The sub-categories are:
 
 For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.   
 
-
+The dependent variables here are race (5 rows), education (2 rows), and income (2 rows). In the education variable, an individual is classified as having "More education" if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having "Higher income" when their annual income is greater than the median household income in their county and "Lower income" when it is less than the median.   
 
 ## Results
 
