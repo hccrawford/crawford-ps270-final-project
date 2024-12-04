@@ -25,7 +25,7 @@ finaldataperc <- read_csv("finaldataperc.csv")
 ```
 
 ```{r}
-finaldata
+knitr::kable(finaldata)
 ```
 
 
@@ -50,7 +50,7 @@ finaldataperc |>
 ```
 
 
-It is notable that the percentages do not refer to the percentage of the race out of 100%; for example, the variable "Uninsured" does not contain 6% White, 9% Black, etc. Rather, it means that within the insurance sub-category (that includes the variables "Private insurance", "Medicaid or Medicare", and "Uninsured"), 6% of White people are uninsured, while 76% of White people have private insurance and 18% are on Medicaid or Medicare.
+It is notable that the percentages do not refer to the percentage of the category, but percentage of the race; for example, the variable "Uninsured" does not contain 6% White, 9% Black, etc. Rather, it means that within the insurance sub-category (that includes the variables "Private insurance", "Medicaid or Medicare", and "Uninsured"), 76% of White people have private insurance, 18% are on Medicaid or Medicare, and 6% are uninsured.
 
 The sub-categories are:
 
@@ -65,7 +65,7 @@ The sub-categories are:
 - Insurance ("Private insurance", "Medicaid or Medicare", "Uninsured")
 - Treatment received ("Surgery", "Chemotherapy", "Radiotherapy")
 
-For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest for this analysis.  
+For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.   
 
 
 
