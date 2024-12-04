@@ -103,36 +103,77 @@ The graph above demonstrates the percentages of people included in the study wit
 
 ## Results
 
+To get more types of models, we need to reshape the data.
+
+```{r}
+finaldataperc1 <- finaldataperc |>
+  select("Race", "Deceased", "Stage I", "Stage II", "Stage III", "Stage IV", "NA (CNS)", "More education", "Less education", "Higher income", "Lower income")
+```
+
+```{r}
+finaldataperc_long_income <- finaldataperc1 |>
+  pivot_longer(cols = c("Higher income", "Lower income"),
+               names_to = "Income Category",
+               values_to = "Income Value")
+```
+
+```{r}
+long_income_abbr <- finaldataperc_long_income |>
+  select("Race", "Income Category", "Income Value")
+
+knitr::kable(long_income_abbr)
+```
+
+
+Now, here is a visualization of the relationship between income category and race: 
+
+```{r}
+perc_income <- finaldataperc_long_income |>
+  select("Race", "Income Category", "Income Value")
+```
+
+
+```{r}
+ggplot(perc_income, aes(x = Race, y = `Income Value`, fill = `Income Category`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Income Distribution by Race", 
+       x = "Race", 
+       y = "Percentage", 
+       fill = "Income Level") +
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+Here is a visualization of the relationship between education level and race:
+
+```{r}
+finaldataperc_long_education <- finaldataperc1 |>
+  pivot_longer(cols = c("More education", "Less education"),
+               names_to = "Education Category",
+               values_to = "Education Value")
+```
+
+```{r}
+perc_education <- finaldataperc_long_education |>
+  select("Race", "Education Category", "Education Value")
+```
+
+```{r}
+ggplot(perc_education, aes(x = Race, y = `Education Value`, fill = `Education Category`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Education Distribution by Race", 
+       x = "Race", 
+       y = "Percentage", 
+       fill = "Education Level") +
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
 ## Conclusion
 
 
-
-
-# Project thoughts
-
-I am interested in exploring data related to how differences in demographics correspond to mortality rates of various cancers. 
-
-
-```{r}
-print(finaldata)
-```
-
-```{r}
-finaldataperc
-```
-
-
-```{r}
-finaldataperc |>
-  ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
-  geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
 ## Milestone 4
-
-
-
 
 The reason that the average is so low relative to the averages of all other races is because the subjects in this study were overwhelmingly white, bringing the average down considerably. It is the reason the data in the graph above looks at the percentages, rather than raw numbers, because the raw numbers would show that a larger number of white people died than any other race; this does not reflect the rate of death, it is reflective of how many white people were included in the study. 
 
