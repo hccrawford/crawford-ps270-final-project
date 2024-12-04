@@ -1,7 +1,7 @@
 ---
 title: "PS270 Final Project"
 author: "Harrison Crawford"
-description: "My final project"
+description: "The Unequal Burden of Cancer: Systemic Racial Disparities Regarding Access to Healthcare"
 output:
   distill::distill_article:
     self_contained: false
@@ -10,7 +10,7 @@ output:
 
 ## Introduction
 
-Cancer is an interesting and tragic condition due to its prevalence and mortality rate. It is also very diverse, with several different types of cancers and different rates of incidence among different populations, determined by environmental and genetic factors. It's this diversity in experience with cancer that naturally asks the question of how it is experienced across different groups of people. The research question of interest here is how the mortality rate of cancer differs across racial groups. As a hypothesis, it is expected that mortality rates will be higher among those that are nonwhite. This is because there is a correlation between race and income groups, with nonwhite people having a higher proportion of individuals living below the poverty line as compared to white people due to systemic injustices that date back to before the founding of this country. Those with lower incomes likely have received less education and have less access to quality healthcare and therefore may not receive the treatment they need. In this analysis, we will analyze how race relates directly to mortality rates. We will also observe how race correlates with other factors that may more directly influence mortality rates, such as levels of income and education, proportions of uninsured people, and rates of late-stage diagnosis (Stage III or IV). This information is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
+Race is a complicated issue in the U.S., one that is influenced by a multitude of different factors. Systemic injustices that go back to before the founding of this country continue to influence daily life for people day. Injustices such as slavery, police brutality, Jim Crow laws, redlining, forced indigenous relocation, Japanese internment, colonialism in general and much, much more have a strong power that proves that these horrible acts and events are not simply in the past. In this analysis, a variety of factors will be analyzed to ascertain more specific ways that systemic disparities can be identified. Special focus is placed on cancer, as incidence and mortality of cancer is not uniformly distributed across all racial groups. The research question of interest here is how the mortality rate of cancer differs across racial groups. As a hypothesis, it is expected that mortality rates will be higher among those that are nonwhite. This is because there is a correlation between race and income groups, with nonwhite people having a higher proportion of individuals living below the poverty line as compared to white people. Those with lower incomes likely have received less education and have reduced access to quality healthcare and therefore may not receive the treatment they need. In this analysis, we will analyze how race relates directly to mortality rates. We will also observe how race correlates with other factors that may more directly influence mortality rates, such as levels of income and education, proportions of uninsured people, and rates of late-stage diagnosis (Stage III or IV). All of these factors are also firmly tied to the history of racism in this country. The information being studied here is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
 
 
 ## Data
@@ -83,11 +83,11 @@ The sub-categories are:
 
 For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.   
 
-The independent variable here is race (5 rows). We are looking to see how race corresponds to various other variables. 
+The dependent variables here are "Deceased" , education (2 columns), income (2 columns), insurance (3 columns), and cancer stage (5 columns). The Deceased variable refers to those who both received a diagnosis and passed away due to cancer within the study period (2004-2017). In the education variable, an individual is classified as having "More education" if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having "Higher income" when their annual income is greater than the median household income in their county and "Lower income" otherwise. Cancer stage, of course, refers to the stage at diagnosis, with the exception of central nervous system (CNS) cancer, which is not classified in the traditional stages.
 
-The dependent variables are "Deceased", education (2 columns), income (2 columns), insurance (3 columns), and cancer stage (5 columns). The "Deceased" variable refers to those who both received a diagnosis and passed away due to cancer within the study period (2004-2017). In the education variable, an individual is classified as having "More education" if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having "Higher income" when their annual income is greater than the median household income in their county and "Lower income" when it is less than the median. Cancer stage, of course, refers to the stage at diagnosis, with the exception of central nervous system (CNS) cancer, which is not classified in the traditional stages. 
+The independent variable is race. We are looking to see how race influences the other variables.  
 
-Below is a graph summarizing one of the dependent variables, "Deceased":
+Below is a graph summarizing one of the relationship between race and mortality, one of the key questions of this analysis:
 
 ```{r}
 deceased_graph <- finaldataperc |>
@@ -107,7 +107,7 @@ To get more types of models, we need to reshape the data.
 
 ```{r}
 finaldataperc1 <- finaldataperc |>
-  select("Race", "Deceased", "Stage I", "Stage II", "Stage III", "Stage IV", "NA (CNS)", "More education", "Less education", "Higher income", "Lower income")
+  select("Race", "Deceased", "Stage I", "Stage II", "Stage III", "Stage IV", "NA (CNS)", "More education", "Less education", "Higher income", "Lower income", "Uninsured", "Private insurance", "Medicaid or Medicare")
 ```
 
 ```{r}
@@ -167,6 +167,60 @@ ggplot(perc_education, aes(x = Race, y = `Education Value`, fill = `Education Ca
        fill = "Education Level") +
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+Now, the relationship between insurance status and race: 
+
+```{r}
+finaldataperc_long_insurance <- finaldataperc1 |>
+  pivot_longer(cols = c("Uninsured", "Medicaid or Medicare", "Private insurance"),
+               names_to = "Insurance Category",
+               values_to = "Insurance Value")
+```
+
+```{r}
+perc_insurance <- finaldataperc_long_insurance |>
+  select("Race", "Insurance Category", "Insurance Value")
+```
+
+
+```{r}
+ggplot(perc_insurance, aes(x = Race, y = `Insurance Value`, fill = `Insurance Category`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Insurance Distribution by Race", 
+       x = "Race", 
+       y = "Percentage", 
+       fill = "Insurance Level") +
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Here is the relationship between race and stage of cancer at the time of diagnosis: 
+
+```{r}
+finaldataperc_long_stage <- finaldataperc1 |>
+  pivot_longer(cols = c("Stage I", "Stage II", "Stage III", "Stage IV", "NA (CNS)"),
+               names_to = "Stage Category",
+               values_to = "Stage Value")
+```
+
+```{r}
+perc_stage <- finaldataperc_long_stage |>
+  select("Race", "Stage Category", "Stage Value")
+```
+
+```{r}
+ggplot(perc_stage, aes(x = Race, y = `Stage Value`, fill = `Stage Category`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Stage Distribution by Race", 
+       x = "Race", 
+       y = "Percentage", 
+       fill = "Stage Level") +
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Finally, we will create a linear regression to determine how the independent variables (race, insurance type, cancer stage, income level, and education level) influence the dependent variable (mortality rate). 
+
+
+
 
 
 
