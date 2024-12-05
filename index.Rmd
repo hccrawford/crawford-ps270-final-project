@@ -10,7 +10,7 @@ output:
 
 ## Introduction
 
-Race is a complicated issue in the U.S., one that is influenced by a multitude of different factors. Systemic injustices that go back to before the founding of this country continue to influence daily life for people day. Injustices such as slavery, police brutality, Jim Crow laws, redlining, forced indigenous relocation, Japanese internment, colonialism in general and much, much more have a strong power that proves that these horrible acts and events are not simply in the past. In this analysis, a variety of factors will be analyzed to ascertain more specific ways that systemic disparities can be identified. Special focus is placed on cancer, as incidence and mortality of cancer is not uniformly distributed across all racial groups. The research question of interest here is how the mortality rate of cancer differs across racial groups. As a hypothesis, it is expected that mortality rates will be higher among those that are nonwhite. This is because there is a correlation between race and income groups, with nonwhite people having a higher proportion of individuals living below the poverty line as compared to white people. Those with lower incomes likely have received less education and have reduced access to quality healthcare and therefore may not receive the treatment they need. In this analysis, we will analyze how race relates directly to mortality rates. We will also observe how race correlates with other factors that may more directly influence mortality rates, such as levels of income and education, proportions of uninsured people, and rates of late-stage diagnosis (Stage III or IV). All of these factors are also firmly tied to the history of racism in this country. The information being studied here is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
+Race is a complicated issue in the U.S., one that is influenced by a multitude of different factors. Systemic injustices that go back to before the founding of this country continue to influence daily life for people day. Injustices such as slavery, police brutality, Jim Crow laws, redlining, forced indigenous relocation, Japanese internment, colonialism in general and much, much more have a strong power that proves that these horrible acts and events are not simply in the past. In this analysis, a variety of factors will be analyzed to ascertain more specific ways that systemic disparities can be identified. Special focus is placed on cancer, as incidence and mortality of cancer is not uniformly distributed across all racial groups. The research question of interest here is how the mortality rate of cancer differs across racial groups. As a hypothesis, it is expected that mortality rates will be higher among those that are nonwhite. A correlation between race and income groups, with nonwhite people having a higher proportion of individuals receiving lower levels of income (to be specified later) as compared to white people, is also expected. Those with lower incomes likely have received less education and have reduced access to quality healthcare and therefore may not receive the treatment they need. In this analysis, we will analyze how race relates directly to mortality rates. We will also observe how race correlates with other factors that may more directly influence mortality rates, such as levels of income and education, proportions of uninsured people, and rates of late-stage diagnosis (Stage III or IV). All of these factors are also firmly tied to the history of racism in this country. The information being studied here is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
 
 
 ## Data
@@ -24,8 +24,6 @@ library(tidyverse)
 finaldata <- read_csv("finaldata4.csv")
 finaldataperc <- read_csv("finaldataperc.csv")
 ```
-
-
 
 Data table previews: 
 ```{r}
@@ -81,11 +79,12 @@ The sub-categories are:
 - Insurance ("Private insurance", "Medicaid or Medicare", "Uninsured")
 - Treatment received ("Surgery", "Chemotherapy", "Radiotherapy")
 
-For this analysis, we are only looking at the "Colon or rectal" cancer type. We are also not looking at the distance to hospital and urban/rural categories, simply because they are not of interest here.   
+For this analysis, we are not using the "Type of cancer", "Gender", "Distance to hospital", "Urban/rural", or "Treatment received" categories. 
 
 The dependent variables here are "Deceased" , education (2 columns), income (2 columns), insurance (3 columns), and cancer stage (5 columns). The Deceased variable refers to those who both received a diagnosis and passed away due to cancer within the study period (2004-2017). In the education variable, an individual is classified as having "More education" if their level of education (high school, college, etc.) is greater than the median level of education in their county. In the income variable, an individual classifies as having "Higher income" when their annual income is greater than the median household income in their county and "Lower income" otherwise. Cancer stage, of course, refers to the stage at diagnosis, with the exception of central nervous system (CNS) cancer, which is not classified in the traditional stages.
 
-The independent variable is race. We are looking to see how race influences the other variables.  
+The independent variable is race. We are looking to see how race influences the other variables.   
+
 
 Below is a graph summarizing one of the relationship between race and mortality, one of the key questions of this analysis:
 
@@ -217,11 +216,29 @@ ggplot(perc_stage, aes(x = Race, y = `Stage Value`, fill = `Stage Category`)) +
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Finally, we will create a linear regression to determine how the independent variables (race, insurance type, cancer stage, income level, and education level) influence the dependent variable (mortality rate). 
+Finally, we will create a linear regression to determine how a dependent variable (mortality rate) influences the independent variable (race). Mortality rate is selected because that is ultimately the most interesting variable for this study's purposes. The other four dependent variables are included primarily to determine trends across these variables; if white people have the highest percentage of people classified as "Higher income", do they also have the highest percentage of people classified as "More education", "Private insurance", and "Stage I" (diagnosing cancer early is indicative of regular check-ins with a doctor and it is positively correlated with survival rates)? 
 
+```{r}
+finaldataperc$Race <- factor(finaldataperc$Race, ordered = FALSE)
+```
 
+```{r}
+finaldataperc$Race <- relevel(finaldataperc$Race, ref = "Overall")
+```
 
+```{r}
+mortality_linear <- lm(Deceased ~ Race, data = finaldataperc)
+mortality_linear
+```
+Using the "race" called "Overall" as the reference group, the regression demonstrates that:
+- The intercept is 16.
+- The White coefficient is -1.
+- The Asian coefficient is near 0.
+- The Black coefficient is 8.
+- The Native Hawaiian/Pacific Islander coefficient is 6.
+- The American Indian/Alaska Native coefficient is 4.
 
+This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate roughly equal to the Overall (~16%), and the white population has a mortality rate 1% lower than the Overall (15%). 
 
 
 ## Conclusion
