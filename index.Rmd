@@ -142,6 +142,7 @@ ggplot(perc_income, aes(x = Race, y = `Income Value`, fill = `Income Category`))
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+The data shows that, compared to the overall population, which will be treated as the "average", the Asian, Native Hawaiian, and white groups have higher proportions of "Higher income" people and lower proportions of "Lower income" people. This is reversed in the American Indian and Black groups, which have lower proportions of "Higher income" people and higher proportions of "Lower income" people. 
 
 Here is a visualization of the relationship between education level and race:
 
@@ -166,6 +167,7 @@ ggplot(perc_education, aes(x = Race, y = `Education Value`, fill = `Education Ca
        fill = "Education Level") +
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+The above graph demonstrates that the white and Asian groups had higher proportions of people with "More education" than the overall population, as well as lower proportions of people with "Less education". Meanwhile, the Native Hawaiian group had a roughly equal proportion of "More education" people and a slightly higher proportion of "Less education" people. Both the Black and American Indian groups had lower levels of "More education" people and higher levels of "Less education" people than the overall population.
 
 Now, the relationship between insurance status and race: 
 
@@ -192,6 +194,8 @@ ggplot(perc_insurance, aes(x = Race, y = `Insurance Value`, fill = `Insurance Ca
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+The white and Asian groups had higher proportions of "Private insurance" than the Overall, and have lower levels of those on Medicaid or Medicare than the Overall, though the Asian proportion of this variable is very close to the Overall. The Black, Native Hawaiian, and American Indian groups all had lower levels of private insurance and higher levels of Medicaid or Medicare. The proportions of those uninsured are all very close to each other, but it is notably higher among the Black population. 
+
 Here is the relationship between race and stage of cancer at the time of diagnosis: 
 
 ```{r}
@@ -215,6 +219,8 @@ ggplot(perc_stage, aes(x = Race, y = `Stage Value`, fill = `Stage Category`)) +
        fill = "Stage Level") +
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+White people are the only group with a Stage I diagnosis proportion higher than the Overall. Native Hawaiian and Asian people are tied for the highest proportion of Stage II diagnoses, while Black and American Indian populations are tied for the highest Stage III proportions. Black people also have the largest level of those diagnosed at Stage IV. All of these extreme values are larger than their corresponding value in the Overall.
+
 
 Finally, we will create a linear regression to determine how a dependent variable (mortality rate) influences the independent variable (race). Mortality rate is selected because that is ultimately the most interesting variable for this study's purposes. The other four dependent variables are included primarily to determine trends across these variables; if white people have the highest percentage of people classified as "Higher income", do they also have the highest percentage of people classified as "More education", "Private insurance", and "Stage I" (diagnosing cancer early is indicative of regular check-ins with a doctor and it is positively correlated with survival rates)? 
 
@@ -231,25 +237,27 @@ mortality_linear <- lm(Deceased ~ Race, data = finaldataperc)
 mortality_linear
 ```
 Using the "race" called "Overall" as the reference group, the regression demonstrates that:
+
 - The intercept is 16.
-- The White coefficient is -1.
+
+- The white coefficient is -1.
+
 - The Asian coefficient is near 0.
+
 - The Black coefficient is 8.
+
 - The Native Hawaiian/Pacific Islander coefficient is 6.
+
 - The American Indian/Alaska Native coefficient is 4.
 
 This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate roughly equal to the Overall (~16%), and the white population has a mortality rate 1% lower than the Overall (15%). 
 
+Of course, these values are identical to the values of the percentages of the "Deceased" variable, as found in the original "finaldataperc" data file. Because of this, the regression above does not uncover new information from this data. While the regression model produced coefficients that align directly with the original mortality rates by race, this process demonstrates how regression can formalize and statistically confirm patterns observed in the raw data.
+
 
 ## Conclusion
 
-
-## Milestone 4
-
-The reason that the average is so low relative to the averages of all other races is because the subjects in this study were overwhelmingly white, bringing the average down considerably. It is the reason the data in the graph above looks at the percentages, rather than raw numbers, because the raw numbers would show that a larger number of white people died than any other race; this does not reflect the rate of death, it is reflective of how many white people were included in the study. 
-
-Future data analysis can ascertain whether this trend remains consistent across each type of cancer. It is also worth analyzing whether other factors, such as rates of insurance coverage, education, and high income level follow the trends here: do white people have higher rates of being covered by private insurance? Getting higher education? Receiving more income? If there is a correlation, it is possible that those factors influence the rates at which people who have cancer die from it. 
-
+The hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as "Lower income", "Less education", "Uninsured", and "Stage IV", all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone being on Medicaid or not having health insurance at all, simply because they cannot afford a more expensive, but higher quality, private health care plan. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition. 
 
 
 
