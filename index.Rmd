@@ -226,6 +226,10 @@ White people are the only group with a Stage I diagnosis proportion higher than 
 Finally, we will create a linear regression to determine how a dependent variable (mortality rate) influences the independent variable (race). Mortality rate is selected because that is ultimately the most interesting variable for this study's purposes. The other four dependent variables are included primarily to determine trends across these variables; if white people have the highest percentage of people classified as "Higher income", do they also have the highest percentage of people classified as "More education", "Private insurance", and "Stage I" (diagnosing cancer early is indicative of regular check-ins with a doctor and it is positively correlated with survival rates)? 
 
 ```{r}
+library(broom)
+```
+
+```{r}
 finaldataperc$Race <- factor(finaldataperc$Race, ordered = FALSE)
 ```
 
@@ -235,7 +239,8 @@ finaldataperc$Race <- relevel(finaldataperc$Race, ref = "Overall")
 
 ```{r}
 mortality_linear <- lm(Deceased ~ Race, data = finaldataperc)
-mortality_linear
+tidy(mortality_linear) |>
+  knitr::kable(digits = 3)
 ```
 Using the "race" called "Overall" as the reference group, the regression demonstrates that:
 
@@ -243,7 +248,7 @@ Using the "race" called "Overall" as the reference group, the regression demonst
 
 - The white coefficient is -1.
 
-- The Asian coefficient is near 0.
+- The Asian coefficient is 0.
 
 - The Black coefficient is 8.
 
@@ -251,7 +256,7 @@ Using the "race" called "Overall" as the reference group, the regression demonst
 
 - The American Indian/Alaska Native coefficient is 4.
 
-This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate roughly equal to the Overall (~16%), and the white population has a mortality rate 1% lower than the Overall (15%). 
+This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate equal to the Overall (16%), and the white population has a mortality rate 1% lower than the Overall (15%). 
 
 Of course, these values are identical to the values of the percentages of the "Deceased" variable, as found in the original "finaldataperc" data file. Because of this, the regression above does not uncover new information from this data. While the regression model produced coefficients that align directly with the original mortality rates by race, this process demonstrates how regression can formalize and statistically confirm patterns observed in the raw data.
 
