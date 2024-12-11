@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-11-1.png","index_files/figure-html5/unnamed-chunk-14-1.png","index_files/figure-html5/unnamed-chunk-17-1.png","index_files/figure-html5/unnamed-chunk-20-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-11-1.png","index_files/figure-html5/unnamed-chunk-14-1.png","index_files/figure-html5/unnamed-chunk-17-1.png","index_files/figure-html5/unnamed-chunk-20-1.png","index_files/figure-html5/unnamed-chunk-22-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1924,6 +1924,35 @@ Data table previews:
 <p><img src="index_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
 </div>
 <p>The white and Asian groups had higher proportions of “Private insurance” than the Overall, and have lower levels of those on Medicaid or Medicare than the Overall, though the Asian proportion of this variable is very close to the Overall. The Black, Native Hawaiian, and American Indian groups all had lower levels of private insurance and higher levels of Medicaid or Medicare. The proportions of those uninsured are all very close to each other, but it is notably higher among the Black population.</p>
+<p>Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mortality_linear</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Deceased</span> <span class='op'>~</span> <span class='va'>`Stage I`</span> <span class='op'>+</span> <span class='va'>`Stage II`</span> <span class='op'>+</span> <span class='va'>`Stage III`</span>, data <span class='op'>=</span> <span class='va'>finaldataperc</span><span class='op'>)</span></span>
+<span><span class='va'>mortality_linear</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = Deceased ~ `Stage I` + `Stage II` + `Stage III`, 
+    data = finaldataperc)
+
+Coefficients:
+(Intercept)    `Stage I`   `Stage II`  `Stage III`  
+    63.9137      -0.8539      -0.6332       0.1036  </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>mortality_linear</span><span class='op'>)</span><span class='op'>$</span><span class='va'>r.squared</span></span></code></pre>
+</div>
+<pre><code>[1] 0.9507916</code></pre>
+</div>
+<p>The regression demonstrates that:</p>
+<ul>
+<li><p>The intercept is 63.91.</p></li>
+<li><p>The Stage I coefficient is -0.85.</p></li>
+<li><p>The Stage II coefficient is -0.63.</p></li>
+<li><p>The Stage III coefficient is 0.1.</p></li>
+</ul>
+<p>In context, this means that, if every individual who was diagnosed with cancer was diagnosed at Stage IV (if they were afflicted with central nervous system cancer, this does not apply), the mortality rate would be approximately 63.91%. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who were diagnosed during the corresponding stage. For every 1% increase in the amount of people who were diagnosed during Stage I, the mortality rate falls by 0.85%. For a similar increase in the Stage II population, the mortality rate falls by 0.63%. For the same increase in the Stage III population, the mortality rate rises by 0.1%. The R-squared, calculated above to be approximately 0.95, reflects a very small degree of variation between the values predicted by the coefficients and the true values, according to the data set, indicating that the above regression is a fairly accurate depiction of the relationship between cancer mortality rates and the stage of diagnosis. However, there are concerns regarding the standard error and p-values, which will be explored and qualified in the conclusion section.</p>
 <p>Here is the relationship between race and stage of cancer at the time of diagnosis:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1949,111 +1978,16 @@ Data table previews:
 <span>       fill <span class='op'>=</span> <span class='st'>"Stage Level"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
 </div>
 <p>White people are the only group with a Stage I diagnosis proportion higher than the Overall. Native Hawaiian and Asian people are tied for the highest proportion of Stage II diagnoses, while Black and American Indian populations are tied for the highest Stage III proportions. Black people also have the largest level of those diagnosed at Stage IV. All of these extreme values are larger than their corresponding value in the Overall. It is also noteworthy that, while Stage I is typically the most common stage of diagnosis, Stage II is more common among Native Hawaiians/Other Pacific Islanders and it Stages I and II have equal proportions in the Black population.</p>
-<p>Finally, we will create a linear regression to determine how a dependent variable (mortality rate) influences the independent variable (race). Mortality rate is selected because that is ultimately the most interesting variable for this study’s purposes. The other four dependent variables are included primarily to determine trends across these variables; if white people have the highest percentage of people classified as “Higher income”, do they also have the highest percentage of people classified as “More education”, “Private insurance”, and “Stage I” (diagnosing cancer early is indicative of regular check-ins with a doctor and it is positively correlated with survival rates)?</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span><span class='op'>$</span><span class='va'>Race</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>finaldataperc</span><span class='op'>$</span><span class='va'>Race</span>, ordered <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span><span class='op'>$</span><span class='va'>Race</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span><span class='op'>(</span><span class='va'>finaldataperc</span><span class='op'>$</span><span class='va'>Race</span>, ref <span class='op'>=</span> <span class='st'>"Overall"</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mortality_linear</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Deceased</span> <span class='op'>~</span> <span class='va'>Race</span>, data <span class='op'>=</span> <span class='va'>finaldataperc</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>mortality_linear</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
-</div>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 55%" />
-<col style="width: 10%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RaceAmerican Indian or Alaska Native</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">RaceAsian</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RaceBlack</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">RaceNative Hawaiian or Other Pacific Islander</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RaceWhite</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-<td style="text-align: right;">NaN</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Using the “race” called “Overall” as the reference group, the regression demonstrates that:</p>
-<ul>
-<li><p>The intercept is 16.</p></li>
-<li><p>The white coefficient is -1.</p></li>
-<li><p>The Asian coefficient is 0.</p></li>
-<li><p>The Black coefficient is 8.</p></li>
-<li><p>The Native Hawaiian/Pacific Islander coefficient is 6.</p></li>
-<li><p>The American Indian/Alaska Native coefficient is 4.</p></li>
-</ul>
-<p>This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate equal to the Overall (16%), and the white population has a mortality rate 1% lower than the Overall (15%).</p>
-<p>Of course, these values are identical to the values of the percentages of the “Deceased” variable, as found in the original “finaldataperc” data file. Because of this, the regression above does not uncover new information from this data. While the regression model produced coefficients that align directly with the original mortality rates by race, this process demonstrates how regression can formalize and statistically confirm patterns observed in the raw data.</p>
 <h2 id="conclusion">Conclusion</h2>
+<p>The regression in the above section</p>
 <p>The hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as “Lower income”, “Less education”, “Uninsured”, and “Stage IV”, all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone being on Medicaid or not having health insurance at all, simply because they cannot afford a more expensive, but higher quality, private health care plan. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition.</p>
 <p>However, the hypothesis was imprecise in that it predicated that white people would have the lowest mortality rate of cancer. The data in the study supports this, but not every nonwhite race has an equal mortality rate. For example, the Asian population had a very similar mortality rate to white people and many of the supporting factors are also similar: high incomes, high education levels, high rates of private insurance, and high proportions of Stage I diagnoses. It is unclear why exactly this is, but different races in the U.S. have faced different barriers to wealth and education throughout American history. It is also true that the Asian group only contained roughly 8,400 people, while the Black population contained about 41,000 people and the white population contained about 240,000 people. It is possible that differences from white people would get more pronounced when considering a larger population of Asian people, which is something that can be done in a future study. Alternatively, it is entirely possible that Asian people are simply very similar to white people in terms of wealth and education levels in the U.S. and an increased sample size would only further support the current findings.</p>
 <p>Besides the Black population, the other population that had notably high proportions of mortality, low income, low education, late-stage diagnoses, and the use of government insurance or even lack of insurance are indigenous Americans. This is another group that has a long and storied history of tragedy and injustice over the past several hundred years, creating a society where they face roadblocks to education and wealth that most white people don’t face, leading to the results of this study, as shown above.</p>
 <p>Moving forward, there are variables that were not included in this analysis that are worthy of study. A prime example is the type of region in which an individual lives, whether it is urban or rural. This variable is technically included in this data set, but it is not established in a way that lends itself to thorough analysis, so a new study that focuses specifically on this distinction would be welcome. Those who live in rural areas may have more difficulty reaching a doctor, which can have a powerful influence on late-stage diagnoses. Incidence of cancer should also be analyzed, since any disparities in incidence, not just mortality, of different types of cancers has the potential to be very interesting; even in a study like that, there would be uncertainty about the accuracy of reporting; some people with cancer may simply never get diagnosed, confounding the data. Further studies should also be done to more closely analyze the supporting variables from this data set: income, education, and type of insurance. These factors do indeed influence cancer mortality rate but there remains the closer question of what factors influence them. Above, at the end of the first paragraph of the conclusion section, a conjecture was made that connects all of these variables, but hard data would be more appropriate for further study. Income inequality is something that impacts all races, though unequally, and the causes behind these, whether they are related to location, career, or something else, is useful data that can help further determine the groups of people most in need of healthcare aid.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

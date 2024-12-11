@@ -196,6 +196,32 @@ ggplot(perc_insurance, aes(x = Race, y = `Insurance Value`, fill = `Insurance Ca
 
 The white and Asian groups had higher proportions of "Private insurance" than the Overall, and have lower levels of those on Medicaid or Medicare than the Overall, though the Asian proportion of this variable is very close to the Overall. The Black, Native Hawaiian, and American Indian groups all had lower levels of private insurance and higher levels of Medicaid or Medicare. The proportions of those uninsured are all very close to each other, but it is notably higher among the Black population. 
 
+
+Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.
+
+
+```{r}
+mortality_linear <- lm(Deceased ~ `Stage I` + `Stage II` + `Stage III`, data = finaldataperc)
+mortality_linear
+```
+
+```{r}
+summary(mortality_linear)$r.squared
+```
+
+
+The regression demonstrates that:
+
+- The intercept is 63.91.
+
+- The Stage I coefficient is -0.85.
+
+- The Stage II coefficient is -0.63.
+
+- The Stage III coefficient is 0.1.
+
+In context, this means that, if every individual who was diagnosed with cancer was diagnosed at Stage IV (if they were afflicted with central nervous system cancer, this does not apply), the mortality rate would be approximately 63.91%. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who were diagnosed during the corresponding stage. For every 1% increase in the amount of people who were diagnosed during Stage I, the mortality rate falls by 0.85%. For a similar increase in the Stage II population, the mortality rate falls by 0.63%. For the same increase in the Stage III population, the mortality rate rises by 0.1%. The R-squared, calculated above to be approximately 0.95, reflects a very small degree of variation between the values predicted by the coefficients and the true values, according to the data set, indicating that the above regression is a fairly accurate depiction of the relationship between cancer mortality rates and the stage of diagnosis. However, there are concerns regarding the standard error and p-values, which will be explored and qualified in the conclusion section. 
+
 Here is the relationship between race and stage of cancer at the time of diagnosis: 
 
 ```{r}
@@ -223,45 +249,9 @@ White people are the only group with a Stage I diagnosis proportion higher than 
 
 
 
-Finally, we will create a linear regression to determine how a dependent variable (mortality rate) influences the independent variable (race). Mortality rate is selected because that is ultimately the most interesting variable for this study's purposes. The other four dependent variables are included primarily to determine trends across these variables; if white people have the highest percentage of people classified as "Higher income", do they also have the highest percentage of people classified as "More education", "Private insurance", and "Stage I" (diagnosing cancer early is indicative of regular check-ins with a doctor and it is positively correlated with survival rates)? 
-
-```{r}
-library(broom)
-```
-
-```{r}
-finaldataperc$Race <- factor(finaldataperc$Race, ordered = FALSE)
-```
-
-```{r}
-finaldataperc$Race <- relevel(finaldataperc$Race, ref = "Overall")
-```
-
-```{r}
-mortality_linear <- lm(Deceased ~ Race, data = finaldataperc)
-tidy(mortality_linear) |>
-  knitr::kable(digits = 3)
-```
-Using the "race" called "Overall" as the reference group, the regression demonstrates that:
-
-- The intercept is 16.
-
-- The white coefficient is -1.
-
-- The Asian coefficient is 0.
-
-- The Black coefficient is 8.
-
-- The Native Hawaiian/Pacific Islander coefficient is 6.
-
-- The American Indian/Alaska Native coefficient is 4.
-
-This means, in context, that the baseline mortality rate among the entire studied population is 16% (the intercept), which is consistent with the data. According to the regression, the American Indian/Alaska Native group has a mortality rate 4% larger than the Overall (20%), the Native Hawaiian/Pacific Islander group has a mortality rate 6% higher than the Overall (22%), the Black population has a mortality rate 8% larger than the Overall (24%), the Asian population has a mortality rate equal to the Overall (16%), and the white population has a mortality rate 1% lower than the Overall (15%). 
-
-Of course, these values are identical to the values of the percentages of the "Deceased" variable, as found in the original "finaldataperc" data file. Because of this, the regression above does not uncover new information from this data. While the regression model produced coefficients that align directly with the original mortality rates by race, this process demonstrates how regression can formalize and statistically confirm patterns observed in the raw data.
-
-
 ## Conclusion
+
+The regression in the above section
 
 The hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as "Lower income", "Less education", "Uninsured", and "Stage IV", all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone being on Medicaid or not having health insurance at all, simply because they cannot afford a more expensive, but higher quality, private health care plan. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition. 
 
