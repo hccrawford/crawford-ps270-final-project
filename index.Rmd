@@ -196,19 +196,20 @@ ggplot(perc_insurance, aes(x = Race, y = `Insurance Value`, fill = `Insurance Ca
 
 The white and Asian groups had higher proportions of "Private insurance" than the Overall, and have lower levels of those on Medicaid or Medicare than the Overall, though the Asian proportion of this variable is very close to the Overall. The Black, Native Hawaiian, and American Indian groups all had lower levels of private insurance and higher levels of Medicaid or Medicare. The proportions of those uninsured are all very close to each other, but it is notably higher among the Black population. 
 
+```{r}
+library(broom)
+library(infer)
+```
+
 
 Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.
 
 
 ```{r}
 mortality_linear <- lm(Deceased ~ `Stage I` + `Stage II` + `Stage III`, data = finaldataperc)
-mortality_linear
+tidy(mortality_linear) |>
+  knitr::kable(digits = 2)
 ```
-
-```{r}
-summary(mortality_linear)$r.squared
-```
-
 
 The regression demonstrates that:
 
@@ -251,7 +252,7 @@ White people are the only group with a Stage I diagnosis proportion higher than 
 
 ## Conclusion
 
-The regression in the above section
+The regression in the above section seems to provide valuable confirmation about the relationship between cancer stage and associated mortality rate. The original data set, as well as simple logic, supports the idea that the earlier in a cancer's development that treatment starts, the more likely, in general, a person will be to survive it. And while the regression's coefficients support this, the model also contains high standard errors for all values and high p-values as well. The stnadard errors 
 
 The hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as "Lower income", "Less education", "Uninsured", and "Stage IV", all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone being on Medicaid or not having health insurance at all, simply because they cannot afford a more expensive, but higher quality, private health care plan. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition. 
 
