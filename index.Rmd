@@ -13,6 +13,7 @@ output:
 Race is a complicated issue in the U.S., one that is influenced by a multitude of different factors. Systemic injustices that go back to before the founding of this country continue to influence daily life for people today. Injustices such as slavery, police brutality, Jim Crow laws, redlining, forced indigenous relocation, Japanese internment, colonialism in general and much, much more have a strong power that proves that these horrible acts and events are not simply in the past. In this analysis, a variety of factors will be analyzed to ascertain more specific ways that systemic disparities can be identified. Special focus is placed on cancer, as incidence and mortality of cancer is not uniformly distributed across all racial groups. The research question of interest here is how the mortality rate of cancer differs across racial groups. As a hypothesis, it is expected that mortality rates will be higher among those that are nonwhite. A correlation between race and income groups, with nonwhite people having a higher proportion of individuals receiving lower levels of income (to be specified later) as compared to white people, is also expected. Those with lower incomes likely have received less education and have reduced access to quality healthcare and therefore may not receive the treatment they need. In this analysis, we will analyze how race relates directly to mortality rates. We will also observe how race correlates with other factors that may more directly influence mortality rates, such as levels of income and education, proportions of uninsured people, and rates of late-stage diagnosis (Stage III or IV). All of these factors are also firmly tied to the history of racism in this country. The information being studied here is important because, upon discerning how mortality rates, and therefore healthcare disparities, are distributed across demographic groups, governments and organizations can more effectively create initiatives to correct these disparities by providing essential healthcare services to those who need it.   
 
 
+
 ## Data
 
 The following data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. The research question in this study aligns well with the goals of this analysis, as the researchers wanted to understand any relationship between race and two variables: 1) cancer stage at diagnosis and 2) mortality rate. Because of this, the data is very useful in answering the research question being posed here. The data was collected retrospectively with the goal of creating a statistical analysis, covering those who received a diagnosis between January 1, 2004 and December 31, 2017. 
@@ -169,6 +170,31 @@ ggplot(perc_education, aes(x = Race, y = `Education Value`, fill = `Education Ca
 ```
 The above graph demonstrates that the white and Asian groups had higher proportions of people with "More education" than the overall population, as well as lower proportions of people with "Less education". Meanwhile, the Native Hawaiian group had a roughly equal proportion of "More education" people and a slightly higher proportion of "Less education" people. Both the Black and American Indian groups had lower levels of "More education" people and higher levels of "Less education" people than the overall population.
 
+
+```{r}
+library(broom)
+library(infer)
+```
+
+Next, we will create a linear regression to determine how an predictor variable (type of insurance) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.
+
+```{r}
+mortality_linear2 <- lm(Deceased ~ `Private insurance` + `Medicaid or Medicare`, data = finaldataperc)
+tidy(mortality_linear2) |>
+  knitr::kable(digits = 2)
+```
+
+
+The regression demonstrates that:
+
+- The intercept is 69.14.
+
+- The private insurance coefficient is -0.59.
+
+- The medicaid/medicare coefficient is -0.41.
+
+In context, this means that, if every individual does not have insurance, the mortality rate would be approximately 69.14% of each race. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who have the corresponding insurance type. For every 1% increase in the amount of people who have private insurance, the mortality rate falls by 0.59%. For a similar increase in the medicaid/medicare (government-sponsored healthcare) population, the mortality rate falls by 0.41%. The R-squared, calculated above to be approximately 0.55, reflects a relatively large degree of variation between the values predicted by the coefficients and the true values, according to the data set. This, alone with concerns regarding the standard error and p-values, will be explored and qualified in the conclusion section. 
+
 Now, the relationship between insurance status and race: 
 
 ```{r}
@@ -195,51 +221,6 @@ ggplot(perc_insurance, aes(x = Race, y = `Insurance Value`, fill = `Insurance Ca
 ```
 
 The white and Asian groups had higher proportions of "Private insurance" than the Overall, and have lower levels of those on Medicaid or Medicare than the Overall, though the Asian proportion of this variable is very close to the Overall. The Black, Native Hawaiian, and American Indian groups all had lower levels of private insurance and higher levels of Medicaid or Medicare. The proportions of those uninsured are all very close to each other, but it is notably higher among the Black population. 
-
-```{r}
-library(broom)
-library(infer)
-```
-
-
-Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.
-
-```{r}
-finaldataperc
-```
-
-
-```{r}
-mortality_linear2 <- lm(Deceased ~ `More education`, data = finaldataperc)
-tidy(mortality_linear2) |>
-  knitr::kable(digits = 2)
-```
-
-```{r}
-mortality_linear3 <- lm(Deceased ~ `Less education`, data = finaldataperc)
-tidy(mortality_linear3) |>
-  knitr::kable(digits = 2)
-```
-
-
-
-```{r}
-mortality_linear <- lm(Deceased ~ `Stage I` + `Stage II` + `Stage III`, data = finaldataperc)
-tidy(mortality_linear) |>
-  knitr::kable(digits = 2)
-```
-
-The regression demonstrates that:
-
-- The intercept is 63.91.
-
-- The Stage I coefficient is -0.85.
-
-- The Stage II coefficient is -0.63.
-
-- The Stage III coefficient is 0.1.
-
-In context, this means that, if every individual who was diagnosed with cancer was diagnosed at Stage IV (if they were afflicted with central nervous system cancer, this does not apply), the mortality rate would be approximately 63.91%. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who were diagnosed during the corresponding stage. For every 1% increase in the amount of people who were diagnosed during Stage I, the mortality rate falls by 0.85%. For a similar increase in the Stage II population, the mortality rate falls by 0.63%. For the same increase in the Stage III population, the mortality rate rises by 0.1%. The R-squared, calculated above to be approximately 0.95, reflects a very small degree of variation between the values predicted by the coefficients and the true values, according to the data set, indicating that the above regression is a fairly accurate depiction of the relationship between cancer mortality rates and the stage of diagnosis. However, there are concerns regarding the standard error and p-values, which will be explored and qualified in the conclusion section. 
 
 Here is the relationship between race and stage of cancer at the time of diagnosis: 
 
@@ -270,13 +251,12 @@ White people are the only group with a Stage I diagnosis proportion higher than 
 
 ## Conclusion
 
-The regression in the above section seems to provide valuable confirmation about the relationship between cancer stage and associated mortality rate. The original data set, as well as simple logic, supports the idea that the earlier in a cancer's development that treatment starts, the more likely, in general, a person will be to survive it. And while the regression's coefficients support this, the model also contains high standard errors for all values and high p-values as well. The stnadard errors 
+The regression in the above section potentially provides valuable information about the relationship between insurance type and  mortality rate. Initially, it appears to indicate that private insurance reduces mortality rate to a greater extent than public insurance. However, while the standard errors are low (0.9 for private insurance, 0.95 for public), the R-squared is also quite low, at 0.55. This indicates that the observed data does not closely match the regression model's prediction. It is notable that this may be largely due to the scarcity of data in this data set. The nature of this data set means that information on the individuals included in the study are not visible, only the summaries by race; if the individuals were visible, perhaps the data would more closely align with the model. Additionally, the p-values of 0.56 for private insurance and 0.7 for public are high and not statistically significant (a p-value would need to be under 0.05 or 0.1 to qualify as such). Due to this, the accuracy of the model is called into question; if the p-values were significant, we would reject the null hypothesis, that there is no relationship between insurance type and mortality rate. However, because the p-values are not statistically significant, we fail to reject this null hypothesis. While the lack of detail in the data set may have altered the results of the regression, the model as is supports the notion that there is no relationship between type of insurance and mortality rate, only that having some type of insurance decreases cancer mortality rate. There is another notable fact, that the racial groups with the lowest rates of cancer mortality (white and Asian) were also the groups with largest disparities between private insurance and public insurance (with private having a significantly higher proportion), suggesting a possible impact of insurance type on mortality rate. However, this is mixed in with several other factors that confounds this conclusion (for example, all groups except "American Indian or Alaska Native" also had higher proportions of private insurance as compared to public, though the disparity is smaller). Further analysis of a longer data set is required to fully understand this relationship.
 
-The hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as "Lower income", "Less education", "Uninsured", and "Stage IV", all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone being on Medicaid or not having health insurance at all, simply because they cannot afford a more expensive, but higher quality, private health care plan. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition. 
+The central hypothesis, that nonwhite populations experience a higher mortality rate of cancer, is supported by the data. Related factors, such as income level, education level, type of insurance, and stage of cancer at diagnosis are all variables that remained consistent across the populations and provide some reasoning behind the hypothesis. The Black population in particular has consistently high proportions of people classified as "Lower income", "Less education", "Uninsured", and "Stage IV", all linked factors that clearly contribute to this population having the highest mortality rate of the five races included in this study. For example, an adult who is not a high school graduate is more likely to have a lower income due to higher-paying jobs often requiring higher education. This low income can lead to someone not having health insurance at all, simply because they cannot afford a health care plan and/or may not have access to public heath care, for whatever reason. This leads to fewer regular visits to the doctor and an unwillingness to see a doctor even if noticeable complications do arise (due to the high cost), which can lead to an individual not receiving a diagnosis until the cancer has progressed to a late stage, limiting the available time and options to fight the condition. 
+However, the hypothesis was imprecise in that it predicated that white people would have the lowest mortality rate of cancer. The data in the study supports this, but not every nonwhite race has an equal mortality rate. For example, the Asian population had a very similar mortality rate to white people and many of the supporting factors are also similar: high incomes, high education levels, high rates of insurance (especially private insurance), and high proportions of Stage I diagnoses. It is unclear why exactly this is, but different races in the U.S. have faced different barriers to wealth and education throughout American history. It is also true that the Asian group only contained roughly 8,400 people, while the Black population contained about 41,000 people and the white population contained about 240,000 people. It is possible that differences from white people would get more pronounced when considering a larger population of Asian people, which is something that can be done in a future study. Alternatively, it is entirely possible that Asian people are simply very similar to white people in terms of wealth and education levels in the U.S. and an increased sample size would only further support the current findings. 
 
-However, the hypothesis was imprecise in that it predicated that white people would have the lowest mortality rate of cancer. The data in the study supports this, but not every nonwhite race has an equal mortality rate. For example, the Asian population had a very similar mortality rate to white people and many of the supporting factors are also similar: high incomes, high education levels, high rates of private insurance, and high proportions of Stage I diagnoses. It is unclear why exactly this is, but different races in the U.S. have faced different barriers to wealth and education throughout American history. It is also true that the Asian group only contained roughly 8,400 people, while the Black population contained about 41,000 people and the white population contained about 240,000 people. It is possible that differences from white people would get more pronounced when considering a larger population of Asian people, which is something that can be done in a future study. Alternatively, it is entirely possible that Asian people are simply very similar to white people in terms of wealth and education levels in the U.S. and an increased sample size would only further support the current findings. 
-
-Besides the Black population, the other population that had notably high proportions of mortality, low income, low education, late-stage diagnoses, and the use of government insurance or even lack of insurance are indigenous Americans. This is another group that has a long and storied history of tragedy and injustice over the past several hundred years, creating a society where they face roadblocks to education and wealth that most white people don't face, leading to the results of this study, as shown above. 
+Besides the Black population, the other population that had notably high proportions of mortality, low income, low education, late-stage diagnoses, and the use of government insurance or lack of insurance are indigenous Americans. This is another group that has a long and storied history of tragedy and injustice over the past several hundred years, creating a society where they face roadblocks to education and wealth that most white people don't face, leading to the results of this study, as shown above. 
 
 Moving forward, there are variables that were not included in this analysis that are worthy of study. A prime example is the type of region in which an individual lives, whether it is urban or rural. This variable is technically included in this data set, but it is not established in a way that lends itself to thorough analysis, so a new study that focuses specifically on this distinction would be welcome. Those who live in rural areas may have more difficulty reaching a doctor, which can have a powerful influence on late-stage diagnoses. Incidence of cancer should also be analyzed, since any disparities in incidence, not just mortality, of different types of cancers has the potential to be very interesting; even in a study like that, there would be uncertainty about the accuracy of reporting; some people with cancer may simply never get diagnosed, confounding the data. Further studies should also be done to more closely analyze the supporting variables from this data set: income, education, and type of insurance. These factors do indeed influence cancer mortality rate but there remains the closer question of what factors influence them. Above, at the end of the first paragraph of the conclusion section, a conjecture was made that connects all of these variables, but hard data would be more appropriate for further study. Income inequality is something that impacts all races, though unequally, and the causes behind these, whether they are related to location, career, or something else, is useful data that can help further determine the groups of people most in need of healthcare aid. 
 
