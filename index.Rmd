@@ -204,6 +204,24 @@ library(infer)
 
 Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.
 
+```{r}
+finaldataperc
+```
+
+
+```{r}
+mortality_linear2 <- lm(Deceased ~ `More education`, data = finaldataperc)
+tidy(mortality_linear2) |>
+  knitr::kable(digits = 2)
+```
+
+```{r}
+mortality_linear3 <- lm(Deceased ~ `Less education`, data = finaldataperc)
+tidy(mortality_linear3) |>
+  knitr::kable(digits = 2)
+```
+
+
 
 ```{r}
 mortality_linear <- lm(Deceased ~ `Stage I` + `Stage II` + `Stage III`, data = finaldataperc)

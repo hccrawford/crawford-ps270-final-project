@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-11-1.png","index_files/figure-html5/unnamed-chunk-14-1.png","index_files/figure-html5/unnamed-chunk-17-1.png","index_files/figure-html5/unnamed-chunk-20-1.png","index_files/figure-html5/unnamed-chunk-21-1.png","index_files/figure-html5/unnamed-chunk-22-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["finaldata4.csv","finaldataperc.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-11-1.png","index_files/figure-html5/unnamed-chunk-14-1.png","index_files/figure-html5/unnamed-chunk-17-1.png","index_files/figure-html5/unnamed-chunk-20-1.png","index_files/figure-html5/unnamed-chunk-21-1.png","index_files/figure-html5/unnamed-chunk-22-1.png","index_files/figure-html5/unnamed-chunk-25-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1933,6 +1933,95 @@ Data table previews:
 <p>Next, we will create a linear regression to determine how an predictor variable (cancer stage) influences the response variable (mortality rate). It is important to establish and verify this relationship, as it is relevant in a later analysis of how race correlates with these variables.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>finaldataperc</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 32
+  Race            Deceased `Stage I` `Stage II` `Stage III` `Stage IV`
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 Overall               16        40         25          17         10
+2 White                 15        42         24          16          9
+3 American India…       20        34         25          20         12
+4 Asian                 16        35         30          16         11
+5 Black                 24        29         29          20         15
+6 Native Hawaiia…       22        29         30          19         12
+# ℹ 26 more variables: `NA (CNS)` &lt;dbl&gt;, Breast &lt;dbl&gt;,
+#   Cervical &lt;dbl&gt;, CNS &lt;dbl&gt;, `Colon or rectal` &lt;dbl&gt;, Lung &lt;dbl&gt;,
+#   Lymphoma &lt;dbl&gt;, Melanoma &lt;dbl&gt;, Ovarian &lt;dbl&gt;, Sarcoma &lt;dbl&gt;,
+#   Testicular &lt;dbl&gt;, Female &lt;dbl&gt;, Male &lt;dbl&gt;,
+#   `Distance to hospital, median (IQR), km` &lt;dbl&gt;,
+#   `Higher income` &lt;dbl&gt;, `Lower income` &lt;dbl&gt;, Metropolitan &lt;dbl&gt;,
+#   `Urban-rural` &lt;dbl&gt;, `More education` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mortality_linear2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Deceased</span> <span class='op'>~</span> <span class='va'>`More education`</span>, data <span class='op'>=</span> <span class='va'>finaldataperc</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>mortality_linear2</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">32.43</td>
+<td style="text-align: right;">5.6</td>
+<td style="text-align: right;">5.79</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>More education</code></td>
+<td style="text-align: right;">-0.25</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">-2.47</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mortality_linear3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Deceased</span> <span class='op'>~</span> <span class='va'>`Less education`</span>, data <span class='op'>=</span> <span class='va'>finaldataperc</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>mortality_linear3</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">7.78</td>
+<td style="text-align: right;">4.59</td>
+<td style="text-align: right;">1.69</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Less education</code></td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">2.47</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mortality_linear</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Deceased</span> <span class='op'>~</span> <span class='va'>`Stage I`</span> <span class='op'>+</span> <span class='va'>`Stage II`</span> <span class='op'>+</span> <span class='va'>`Stage III`</span>, data <span class='op'>=</span> <span class='va'>finaldataperc</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>mortality_linear</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
@@ -2012,7 +2101,7 @@ Data table previews:
 <span>       fill <span class='op'>=</span> <span class='st'>"Stage Level"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
 </div>
 <p>White people are the only group with a Stage I diagnosis proportion higher than the Overall. Native Hawaiian and Asian people are tied for the highest proportion of Stage II diagnoses, while Black and American Indian populations are tied for the highest Stage III proportions. Black people also have the largest level of those diagnosed at Stage IV. All of these extreme values are larger than their corresponding value in the Overall. It is also noteworthy that, while Stage I is typically the most common stage of diagnosis, Stage II is more common among Native Hawaiians/Other Pacific Islanders and it Stages I and II have equal proportions in the Black population.</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -2021,7 +2110,7 @@ Data table previews:
 <p>However, the hypothesis was imprecise in that it predicated that white people would have the lowest mortality rate of cancer. The data in the study supports this, but not every nonwhite race has an equal mortality rate. For example, the Asian population had a very similar mortality rate to white people and many of the supporting factors are also similar: high incomes, high education levels, high rates of private insurance, and high proportions of Stage I diagnoses. It is unclear why exactly this is, but different races in the U.S. have faced different barriers to wealth and education throughout American history. It is also true that the Asian group only contained roughly 8,400 people, while the Black population contained about 41,000 people and the white population contained about 240,000 people. It is possible that differences from white people would get more pronounced when considering a larger population of Asian people, which is something that can be done in a future study. Alternatively, it is entirely possible that Asian people are simply very similar to white people in terms of wealth and education levels in the U.S. and an increased sample size would only further support the current findings.</p>
 <p>Besides the Black population, the other population that had notably high proportions of mortality, low income, low education, late-stage diagnoses, and the use of government insurance or even lack of insurance are indigenous Americans. This is another group that has a long and storied history of tragedy and injustice over the past several hundred years, creating a society where they face roadblocks to education and wealth that most white people don’t face, leading to the results of this study, as shown above.</p>
 <p>Moving forward, there are variables that were not included in this analysis that are worthy of study. A prime example is the type of region in which an individual lives, whether it is urban or rural. This variable is technically included in this data set, but it is not established in a way that lends itself to thorough analysis, so a new study that focuses specifically on this distinction would be welcome. Those who live in rural areas may have more difficulty reaching a doctor, which can have a powerful influence on late-stage diagnoses. Incidence of cancer should also be analyzed, since any disparities in incidence, not just mortality, of different types of cancers has the potential to be very interesting; even in a study like that, there would be uncertainty about the accuracy of reporting; some people with cancer may simply never get diagnosed, confounding the data. Further studies should also be done to more closely analyze the supporting variables from this data set: income, education, and type of insurance. These factors do indeed influence cancer mortality rate but there remains the closer question of what factors influence them. Above, at the end of the first paragraph of the conclusion section, a conjecture was made that connects all of these variables, but hard data would be more appropriate for further study. Income inequality is something that impacts all races, though unequally, and the causes behind these, whether they are related to location, career, or something else, is useful data that can help further determine the groups of people most in need of healthcare aid.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
