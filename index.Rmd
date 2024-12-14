@@ -15,7 +15,7 @@ Race is a complicated issue in the U.S., one that is influenced by a multitude o
 
 ## Data
 
-The following data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. The research question in this study aligns well with the goals of this analysis, as the researchers wanted to understand any relationship between race and two variables: 1) cancer stage at diagnosis and 2) mortality rate. Because of this, the data is very useful in answering the research question being posed here. The data was collected retrospectively from a hospital-based oncology database, which included adolescent and young adult (ages 15-39) patients from all over the U.S., with the goal of creating a statistical analysis, selecting those who received a diagnosis between January 1, 2004 and December 31, 2017. 
+The following cross-sectional data comes from the paper "Racial Disparities in Cancer Stage at Diagnosis and Survival for Adolescents and Young Adults" by Taparra, Kekumano, et al., published in the National Library of Medicine (https://pmc.ncbi.nlm.nih.gov/articles/PMC11365006/) on August 30, 2024. The research question in this study aligns well with the goals of this analysis, as the researchers wanted to understand any relationship between race and two variables: 1) cancer stage at diagnosis and 2) mortality rate. Because of this, the data is very useful in answering the research question being posed here. The data was collected retrospectively from a hospital-based oncology database, which included adolescent and young adult (ages 15-39) patients from all over the U.S., with the goal of creating a statistical analysis, selecting those who received a diagnosis between January 1, 2004 and December 31, 2017. 
 
 Loading the data sets and packages: 
 
@@ -44,7 +44,8 @@ The data is in the form of percentages because, as can be seen above, if the abs
 finaldata |>
   ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
   geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Public Insurance Popularity by Race (Amount)", y = "Medicaid or Medicare (Amount)")
 ```
 
 And here is the percentage of each race that is on Medicaid or Medicare: 
@@ -53,7 +54,8 @@ And here is the percentage of each race that is on Medicaid or Medicare:
 finaldataperc |>
   ggplot(aes(x = Race, y = `Medicaid or Medicare`)) +
   geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Public Insurance Popularity by Race (%)", y = "Medicaid or Medicare (Percent)")
 ```
 As is evident, the data that uses percentages contains the more useful information for the purposes of this analysis. 
 
@@ -92,7 +94,8 @@ Below is a graph summarizing the relationship between race and mortality, one of
 deceased_graph <- finaldataperc |>
   ggplot(aes(x = Race, y = Deceased)) + 
   geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Percent of Race Deceased", y = "Percentage")
 
 print(deceased_graph)
 ```
@@ -197,7 +200,7 @@ The regression demonstrates that:
 
 - The medicaid/medicare coefficient is -0.41.
 
-In context, this means that, if every individual does not have insurance, the mortality rate would be approximately 69.14% of each race. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who have the corresponding insurance type, with the other type being held constant. For every 1% increase in the amount of people who have private insurance, the mortality rate falls by 0.59%. For a similar increase in the medicaid/medicare (government-sponsored healthcare) population, the mortality rate falls by 0.41%. Initially, it appears to indicate that private insurance reduces mortality rate to a greater extent than public insurance. However, while the standard errors are low (0.9 for private insurance, 0.95 for public), the R-squared is also quite low, at 0.55. This indicates that the observed data does not closely match the regression model's prediction. It is notable that this may be largely due to the scarcity of data in this data set. The nature of this data set means that information on the individuals included in the study are not visible, only the summaries by race; if the individuals were visible, perhaps the data would more closely align with the model. Additionally, the p-values of 0.56 for private insurance and 0.7 for public are high and not statistically significant (a p-value would need to be under 0.05 or 0.1 to qualify as such, depending on the chosen level). Due to this, the accuracy of the model is called into question; if the p-values were significant, we would reject the null hypothesis, that there is no relationship between insurance type and mortality rate. However, because the p-values are not statistically significant, we fail to reject this null hypothesis. The model supports the notion that there is no relationship between type of insurance and mortality rate, and, because the p-value of the intercept (0.48) is also very high, we cannot reject the null hypothesis there, that the intercept is different from zero (meaning the mortality rate is 0) when no members of a given race have insurance. However, because simple logic indicates that not having health insurance would be an impediment to receiving live-saving cancer treatment, it is likely that the lack of detail in the data set altered the results of the regression.
+In context, this means that, if every individual does not have insurance, the mortality rate would be approximately 69.14% of each race. The coefficients refer to the percent change in the mortality rate for every 1% increase in the population of people who have the corresponding insurance type, with the other type being held constant. For every 1% increase in the amount of people who have private insurance, the mortality rate falls by 0.59%. For a similar increase in the medicaid/medicare (government-sponsored healthcare) population, the mortality rate falls by 0.41%. Initially, it appears to indicate that private insurance reduces mortality rate to a greater extent than public insurance. However, while the standard errors are low (0.9 for private insurance, 0.95 for public), the R-squared is also quite low, at 0.55. This indicates that the observed data does not closely match the regression model's prediction. It is notable that this may be largely due to the scarcity of data in this data set. The nature of this data set means that information on the individuals included in the study are not visible, only the summaries by race; if the individuals were visible, perhaps the data would more closely align with the model. Additionally, the p-values of 0.56 for private insurance and 0.7 for public are high and not statistically significant (a p-value would need to be under 0.05 or 0.1 to qualify as such, depending on the chosen level). Due to this, the accuracy of the model is called into question; if the p-values were significant, we would reject the null hypothesis, that there is no relationship between insurance type and mortality rate. However, because the p-values are not statistically significant, we fail to reject this null hypothesis. The model supports the notion that there is no relationship between type of insurance and mortality rate, and, because the p-value of the intercept (0.48) is also very high, we cannot reject the null hypothesis there, that the intercept is different from zero (meaning the mortality rate is 0) when no members of a given race have insurance. However, because simple logic indicates that not having health insurance would be an impediment to receiving live-saving cancer treatment, it is likely that the lack of detail in the data set altered the results of the regression. The high p-values notwithstanding, I believe the coefficients to represent a causal effect, to the extent that having some form of healthcare will increase an individual's chances of surviving cancer. However, as stated above, any differences between the two types of insurance identified here are inconclusive. 
 
 
 Now, the relationship between insurance status and race: 
